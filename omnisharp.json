@@ -1,0 +1,6 @@
+{
+	"msbuild": {
+		"enabled": true,
+		"Configuration": "Editor.Debug"
+	}
+}

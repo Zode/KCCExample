@@ -1,0 +1,56 @@
+{
+	"ID": "08dd303d01631a73f2a66083c806821c",
+	"TypeName": "FlaxEditor.Content.Settings.LayersAndTagsSettings",
+	"EngineBuild": 6606,
+	"Data": {
+	"Tags": [
+		"ground",
+		"nocollide",
+		"player"
+	],
+	"Layers": [
+		null,
+		"solid",
+		"",
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null
+	],
+	"TerrainLayers": [
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null
+	]
+}
+}

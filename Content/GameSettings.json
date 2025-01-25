@@ -1,0 +1,39 @@
+{
+	"ID": "08dd303d015cd0d0f2a5ba5fc80004ac",
+	"TypeName": "FlaxEditor.Content.Settings.GameSettings",
+	"EngineBuild": 6606,
+	"Data": {
+	"ProductName": "playermovement",
+	"CompanyName": "My Company",
+	"CopyrightNotice": null,
+	"Icon": null,
+	"FirstScene": "00000000000000000000000000000000",
+	"NoSplashScreen": false,
+	"SplashScreen": null,
+	"Time": "08dd303d015d5863f2a60c51c803381e",
+	"Audio": "08dd303d015f3d7df2a628c4c80454a0",
+	"LayersAndTags": "08dd303d01631a73f2a66083c806821c",
+	"Physics": "08dd303d0161cc4df2a659a9c8063d91",
+	"Input": "08dd303d01650a18f2a66594c806b4c7",
+	"Graphics": "08dd303d01673f48f2a72a16c80e61d4",
+	"Network": "08dd303d01694bcdf2a733fec80ec4f3",
+	"Navigation": "08dd303d016b422bf2a758d1c8103529",
+	"Localization": "08dd303d016db8edf2a75ceac8105e24",
+	"GameCooking": "08dd303d016f46e1f2a771c4c8112eaf",
+	"Streaming": "08dd303d0171fccaf2a77523c8115064",
+	"CustomSettings": {
+		"KCC Settings": "08dd30d707950fda3af5e21cca69942d"
+	},
+	"WindowsPlatform": "08dd303d0173a5e4f2a77e5cc811ac9d",
+	"UWPPlatform": "08dd303d0179eafdf2a79284c812762d",
+	"LinuxPlatform": "08dd303d017570b5f2a78520c811f047",
+	"PS4Platform": null,
+	"XboxOnePlatform": null,
+	"XboxScarlettPlatform": null,
+	"AndroidPlatform": "08dd303d01770970f2a78cb5c8123c1b",
+	"SwitchPlatform": null,
+	"PS5Platform": null,
+	"MacPlatform": null,
+	"iOSPlatform": null
+}
+}
