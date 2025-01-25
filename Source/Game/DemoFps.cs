@@ -152,7 +152,7 @@ public class DemoFps : Script, IKinematicCharacter
 		float angle = Math.Clamp(1.0f - (Quaternion.AngleBetween(_smoothedForwardOrientation, _forwardOrientation) / 180.0f), 0.0f, 0.2f);
 		_smoothedForwardOrientation = Quaternion.Slerp(_smoothedForwardOrientation, _forwardOrientation, angle);
 		orientation = _smoothedForwardOrientation;
-		velocity = _velocity + input;
+		velocity = _velocity;
     }
 
 	public bool KinematicCollisionValid(Collider other)
