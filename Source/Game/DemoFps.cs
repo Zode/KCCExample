@@ -74,18 +74,18 @@ public class DemoFps : Script, IKinematicCharacter
 		float drop = 0.0f;
 		if(_kcc.IsGrounded)
 		{
-			float control = tempVelocity.Length < decelerationSpeed ? decelerationSpeed : tempVelocity.Length;
+			float control = (float)tempVelocity.Length < decelerationSpeed ? decelerationSpeed : (float)tempVelocity.Length;
 			drop = control * friction * Time.DeltaTime * multiplier;
 		}
 
-		float newSpeed = tempVelocity.Length - drop;
+		float newSpeed = (float)tempVelocity.Length - drop;
 		if(newSpeed < 0)
 		{
 			newSpeed = 0;
 		}
 		else if(newSpeed > 0)
 		{
-			newSpeed /= tempVelocity.Length;
+			newSpeed /= (float)tempVelocity.Length;
 		}
 
 		_velocity.X *= newSpeed;
@@ -95,7 +95,7 @@ public class DemoFps : Script, IKinematicCharacter
 	//also borrowed directly from quake3
 	private void Q3Accelerate(Vector3 targetDir, float targetSpeed, float acceleration)
 	{
-		float directionPenalty = Vector3.Dot(_velocity, targetDir);
+		float directionPenalty = (float)Vector3.Dot(_velocity, targetDir);
 		float addSpeed = targetSpeed - directionPenalty;
 		if(addSpeed <= 0.0f)
 		{
@@ -124,7 +124,7 @@ public class DemoFps : Script, IKinematicCharacter
 		{
 			//airmove
 			_velocity.Y -= 30 * Time.DeltaTime;
-			Q3Accelerate(input, input.Length * 5, 2.0f);
+			Q3Accelerate(input, 5, 2.0f);
 		}
 		else
 		{
@@ -135,7 +135,7 @@ public class DemoFps : Script, IKinematicCharacter
 			}
 
 			Q3Friction(12, 6.0f, 1.0f);
-			Q3Accelerate(input, input.Length * 10, 12.0f);
+			Q3Accelerate(input, 10, 12.0f);
 		}
 
 		//auto-bhop wheeeee!
@@ -174,7 +174,7 @@ public class DemoFps : Script, IKinematicCharacter
     {
 		//rotate camera with any platform we may be standing on
 		Vector3 angularVelocity = rigidBody.AngularVelocity;
-        _camera.LocalOrientation = Quaternion.RotationY(angularVelocity.Y * Time.DeltaTime) * _camera.LocalOrientation;
+        _camera.LocalOrientation = Quaternion.RotationY((float)angularVelocity.Y * Time.DeltaTime) * _camera.LocalOrientation;
     }
 
     public Vector3 KinematicGroundProjection(Vector3 velocity, Vector3 gravityEulerNormalized)
