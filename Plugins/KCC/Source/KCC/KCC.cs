@@ -44,7 +44,7 @@ public class KCC : GamePlugin
             HomepageUrl = null,
             RepositoryUrl = "https://github.com/Zode/KCC",
             Description = "Kinematic Character Controller",
-            Version = new Version(1, 0, 2),
+            Version = new Version(1, 1, 0),
             IsAlpha = false,
             IsBeta = false,
         };
@@ -66,6 +66,7 @@ public class KCC : GamePlugin
 
         Scripting.LateUpdate += OnLateUpdate;
         Scripting.FixedUpdate += OnFixedUpdate;
+        Scripting.Update += OnUpdate;
 
         _kccSettings = kccSettingsJson.CreateInstance<KCCSettings>();
         _kinematicMovers = new(_kccSettings.MoverInitialCapacity);
@@ -75,6 +76,7 @@ public class KCC : GamePlugin
     /// <inheritdoc />
     public override void Deinitialize()
     {
+        Scripting.Update -= OnUpdate;
         Scripting.FixedUpdate -= OnFixedUpdate;
         Scripting.LateUpdate -= OnLateUpdate;
         base.Deinitialize();
@@ -83,7 +85,22 @@ public class KCC : GamePlugin
     /// <inheritdoc />
     public void OnLateUpdate()
     {
-        if(_kccSettings is null || !_kccSettings.Interpolate)
+        if(_kccSettings is null ||
+            !_kccSettings.Interpolate ||
+            _kccSettings.InterpolationMode != InterpolationMode.LateUpdate)
+        {
+            return;
+        }
+
+        InterpolationUpdate();
+    }
+
+    /// <inheritdoc />
+    public void OnUpdate()
+    {
+        if(_kccSettings is null ||
+            !_kccSettings.Interpolate ||
+            _kccSettings.InterpolationMode != InterpolationMode.Update)
         {
             return;
         }
@@ -101,7 +118,7 @@ public class KCC : GamePlugin
 
         //don't bother processing when game is paused
         //also fixes an issue where CastCollider would be fed a non-normalized direction as result of game being paused
-        if(Time.TimeScale == 0.0f)
+        if(!Level.TickEnabled || Time.TimeScale == 0.0f || Time.GamePaused)
         {
             return;
         }
@@ -226,6 +243,25 @@ public class KCC : GamePlugin
     {
         _interpolationDeltaTime = Time.DeltaTime;
         _interpolationStartTime = Time.TimeSinceStartup;
+
+        if(_kccSettings is null ||
+            !_kccSettings.Interpolate)
+        {
+            foreach(KinematicMover mover in _kinematicMovers)
+            {
+                mover.Position = mover.TransientPosition;
+                mover.Orientation = mover.TransientOrientation;
+            }
+
+            foreach(KinematicCharacterController character in _kinematicCharacters)
+            {
+                character.Position = character.TransientPosition;
+                character.Orientation = character.TransientOrientation;
+            }
+
+            PostSimulationUpdateEvent?.Invoke();
+            return;
+        }
 
         foreach(KinematicMover mover in _kinematicMovers)
         {
