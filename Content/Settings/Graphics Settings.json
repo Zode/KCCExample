@@ -1,15 +1,15 @@
 {
 	"ID": "08dd303d01673f48f2a72a16c80e61d4",
 	"TypeName": "FlaxEditor.Content.Settings.GraphicsSettings",
-	"EngineBuild": 6606,
+	"EngineBuild": 6705,
 	"Data": {
 	"UseVSync": false,
 	"AAQuality": 1,
 	"SSRQuality": 1,
 	"SSAOQuality": 1,
 	"VolumetricFogQuality": 2,
-	"ShadowsQuality": 1,
-	"ShadowMapsQuality": 1,
+	"ShadowsQuality": 3,
+	"ShadowMapsQuality": 3,
 	"AllowCSMBlending": false,
 	"DefaultProbeResolution": 128,
 	"UseHDRProbes": false,
@@ -50,8 +50,10 @@
 			"Enabled": false,
 			"Intensity": 1.0,
 			"Threshold": 3.0,
-			"BlurSigma": 4.0,
-			"Limit": 10.0
+			"ThresholdKnee": 0.5,
+			"Clamp": 3.0,
+			"BaseMix": 0.6,
+			"HighMix": 1.0
 		},
 		"ToneMapping": {
 			"OverrideFlags": 4,

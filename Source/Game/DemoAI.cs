@@ -6,26 +6,23 @@ using KCC;
 namespace Game;
 
 /// <summary>
-/// DemoFps Script showcasing how to make a controller
+/// Script used for benchmarking
 /// </summary>
-public class DemoFps : Script, IKinematicCharacter
+public class DemoAI : Script, IKinematicCharacter
 {
-	private Actor _camera;
-	private Quaternion _cameraOrientation;
-	public Actor teleport;
-	private Quaternion _forwardOrientation = Quaternion.FromDirection(Vector3.Forward);
-	private Quaternion _smoothedForwardOrientation = Quaternion.FromDirection(Vector3.Forward);
 	KinematicCharacterController _kcc;
 	private Vector3 _velocity;
+	private float _xRandomizer = 1.0f;
+	private float _zRandomizer = 1.0f;
+	private static readonly RandomStream _rnd = new((int)Time.StartupTime.Ticks);
 
 	/// <inheritdoc/>
     public override void OnEnable()
     {
-		SetForward(Quaternion.FromDirection(Vector3.Forward));
     	_kcc = Actor.As<KinematicCharacterController>();
 		_kcc.Controller = this;
-		_camera = Actor.GetChild<Camera>();
-		Screen.CursorLock = CursorLockMode.Locked;
+		_xRandomizer = _rnd.RandRange(0.5f, 1.5f);
+		_zRandomizer = _rnd.RandRange(0.5f, 1.5f);
     }
 
     /// <inheritdoc/>
@@ -38,32 +35,7 @@ public class DemoFps : Script, IKinematicCharacter
     /// <inheritdoc/>
     public override void OnUpdate()
     {
-		Vector3 angles = _camera.LocalOrientation.EulerAngles;
-		angles.Y += Input.GetAxis("mousex");
-		angles.X += Input.GetAxis("mousey");
-		angles.X = Math.Clamp(angles.X, -89.9f, 89.9f);
-
-		_camera.LocalOrientation = Quaternion.Euler(angles);
-		
-		angles.X = 0.0f;
-		_cameraOrientation = Quaternion.Euler(angles);
-
-		if(Input.GetKey(KeyboardKeys.Escape))
-		{
-			Screen.CursorLock = CursorLockMode.None;
-			Screen.CursorVisible = true;
-		}
-
-		if(Input.GetKey(KeyboardKeys.Alpha1))
-		{
-			_kcc.SetPosition(teleport.Position);
-		}
     }
-
-	public void SetForward(Quaternion orientation)
-	{
-		_forwardOrientation = orientation;
-	}
 
 	//borrowed directly from quake3 :)
 	private void Q3Friction(float decelerationSpeed, float friction, float multiplier)
@@ -110,15 +82,14 @@ public class DemoFps : Script, IKinematicCharacter
 
 		_velocity.X += accelerationToAdd * targetDir.X;
 		_velocity.Z += accelerationToAdd * targetDir.Z;
-	}	
+	}
 
     public void KinematicMoveUpdate(out Vector3 velocity, out Quaternion orientation)
     {
 		Vector3 input = Vector3.Zero;
-		input.Z += Input.GetAxis("forwards");
-		input.X += Input.GetAxis("sideways");
+		input.X = Mathf.Sin(Time.GameTime * _xRandomizer);
+		input.Z = Mathf.Cos(Time.GameTime * _zRandomizer);
 		input.Normalize();
-		input *= _cameraOrientation;
 
 		if(!_kcc.IsGrounded)
 		{
@@ -135,23 +106,10 @@ public class DemoFps : Script, IKinematicCharacter
 			}
 
 			Q3Friction(12, 6.0f, 1.0f);
-			Q3Accelerate(input, 10, 12.0f);
-		}
-
-		//auto-bhop wheeeee!
-		if(Input.GetAction("jump"))
-		{
-			if(_kcc.IsGrounded)
-			{
-				_kcc.ForceUnground();
-				_velocity.Y = 800 * Time.DeltaTime;
-			}
+			Q3Accelerate(input, 6, 12.0f);
 		}
 		
-		//notice how this is clamped to a low value because we want a smooth transition between extremes
-		float angle = Math.Clamp(1.0f - (Quaternion.AngleBetween(_smoothedForwardOrientation, _forwardOrientation) / 180.0f), 0.0f, 0.2f);
-		_smoothedForwardOrientation = Quaternion.Slerp(_smoothedForwardOrientation, _forwardOrientation, angle);
-		orientation = _smoothedForwardOrientation;
+		orientation = Quaternion.FromDirection(Vector3.Forward);
 		velocity = _velocity;
     }
 
@@ -167,14 +125,10 @@ public class DemoFps : Script, IKinematicCharacter
 
 	public void KinematicGroundingEvent(GroundState groundState, RayCastHit? hit)
 	{
-		Debug.Log($"KinematicGroundingEvent: {groundState}");
 	}
 
     public void KinematicAttachedRigidBodyUpdate(RigidBody rigidBody)
     {
-		//rotate camera with any platform we may be standing on
-		Vector3 angularVelocity = rigidBody.AngularVelocity;
-        _camera.LocalOrientation = Quaternion.RotationY((float)angularVelocity.Y * Time.DeltaTime) * _camera.LocalOrientation;
     }
 
     public Vector3 KinematicGroundProjection(Vector3 velocity, Vector3 gravityEulerNormalized)
@@ -212,7 +166,7 @@ public class DemoFps : Script, IKinematicCharacter
     public void KinematicCollision(RayCastHit hit)
     {
 		//jumping against ceilings its bit awkward without reseting the Y velocity upon ceiling contact
-		if(Math.Round(Vector3.Dot(hit.Normal, _kcc.GravityEulerNormalized), 4, MidpointRounding.ToZero) > 0.0f &&
+		if(Vector3.Dot(hit.Normal, _kcc.GravityEulerNormalized) > 0.0f &&
 			_velocity.Y > 0)
 		{
 			_velocity.Y = 0.0f;
@@ -221,6 +175,5 @@ public class DemoFps : Script, IKinematicCharacter
 
     public void KinematicUnstuckEvent(Collider collider, Vector3 penetrationDirection, float penetrationDistance)
     {
-		Debug.Log($"Unstuck event: direction {penetrationDirection}, distance {penetrationDistance}");
     }
 }

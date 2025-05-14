@@ -4,22 +4,23 @@ namespace KCC;
 #nullable enable
 
 /// <summary>
+/// KCC Simulation driven object.
 /// Utility class that makes kinematic elevators and such faster to program.
 /// </summary>
 [ActorContextMenu("New/Physics/Kinematic Mover"), ActorToolbox("Physics")]
 public class KinematicMover : KinematicBase
 {
 	/// <summary>
-	/// The current velocity in simulation
+	/// The current velocity in simulation.
 	/// </summary>
 	[NoSerialize, HideInEditor] public Vector3 KinematicVelocity {get; private set;} = Vector3.Zero;
 	/// <summary>
-	/// The current angular velocity in simulation
+	/// The current angular velocity in simulation.
 	/// </summary>
 	[NoSerialize, HideInEditor] public Vector3 KinematicAngularVelocity {get; private set;} = Vector3.Zero;
 
 	/// <summary>
-	/// Interface for controlling
+	/// Interface for controlling.
 	/// </summary>
 	[NoSerialize, HideInEditor] public IKinematicMover? Controller {get; set;} = null;
 
@@ -28,7 +29,7 @@ public class KinematicMover : KinematicBase
     {
         base.OnEnable();
 
-		PluginManager.GetPlugin<KCC>().Register(this);
+		_kccPlugin.Register(this);
 
 		MaxAngularVelocity = float.MaxValue;
 		MaxDepenetrationVelocity = float.MaxValue;
@@ -41,13 +42,13 @@ public class KinematicMover : KinematicBase
 	/// <inheritdoc />
     public override void OnDisable()
     {
-		PluginManager.GetPlugin<KCC>().Unregister(this);
+		_kccPlugin.Unregister(this);
 
         base.OnDisable();
     }
 
 	/// <summary>
-	/// Occurs on kinematic update
+	/// Calculate movement. This should not ever be called directly.
 	/// </summary>
 	public void KinematicUpdate()
 	{

@@ -1,0 +1,60 @@
+{
+	"ID": "089f82a35d7359bf02cad8953b62c652",
+	"TypeName": "FlaxEngine.Prefab",
+	"EngineBuild": 6705,
+	"Data": [
+	{
+		"ID": "089f82a35d700c8b02cad8873b62c5be",
+		"TypeName": "KCC.KinematicCharacterController",
+		"ParentID": "00000000000000000000000000000000",
+		"V": {
+			"ColliderType": 0,
+			"FilterCollisions": true,
+			"SlideAccountForPhysicsMaterial": false,
+			"CollisionMask": {
+				"Mask": 2
+			},
+			"GroundingDistance": 2.0,
+			"SimulatedMass": 5000.0
+		},
+		"Name": "AIController",
+		"StaticFlags": 0,
+		"Layer": 1,
+		"Tag": "player",
+		"MaxAngularVelocity": 3.402823466385289e38,
+		"IsKinematic": true
+	},
+	{
+		"ID": "089f82a35d71d4a602cad8873b62c5c6",
+		"TypeName": "Game.DemoAI",
+		"ParentID": "089f82a35d700c8b02cad8873b62c5be",
+		"V": {}
+	},
+	{
+		"ID": "089f82a35d726b9902cad8873b62c5c8",
+		"TypeName": "FlaxEngine.StaticModel",
+		"ParentID": "089f82a35d700c8b02cad8873b62c5be",
+		"Name": "Cube",
+		"Transform": {
+			"Scale": {
+				"X": 0.5,
+				"Y": 1.5,
+				"Z": 0.5
+			}
+		},
+		"StaticFlags": 0,
+		"Layer": 1,
+		"Model": "b43f0f8f4aaba3f3156896a5a22ba493",
+		"Buffer": {
+			"Entries": [
+				{
+					"Material": "00000000000000000000000000000000",
+					"ShadowsMode": 3,
+					"Visible": true,
+					"ReceiveDecals": true
+				}
+			]
+		}
+	}
+]
+}

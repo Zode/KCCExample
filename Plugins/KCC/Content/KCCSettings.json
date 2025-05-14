@@ -1,11 +1,13 @@
 {
 	"ID": "08dd30d707950fda3af5e21cca69942d",
 	"TypeName": "KCC.KCCSettings",
-	"EngineBuild": 6606,
+	"EngineBuild": 6705,
 	"Data": {
 	"AutoSimulation": true,
 	"Interpolate": true,
 	"CharacterInitialCapacity": 100,
-	"MoverInitialCapacity": 100
+	"MoverInitialCapacity": 100,
+	"InterpolationMode": 0,
+	"DebugDisplay": true
 }
 }
