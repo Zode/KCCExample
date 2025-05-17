@@ -141,7 +141,7 @@
 			"TypeName": "KCC.KinematicCharacterController",
 			"ParentID": "08dd30d80479d6544b3c42956d2a1555",
 			"V": {
-	"ColliderType": 0,
+	"ColliderHeight": 125.0,
 	"FilterCollisions": true,
 	"SlideAccountForPhysicsMaterial": false,
 	"CollisionMask": {
@@ -153,9 +153,9 @@
 			"Name": "KinematicCharacterController",
 			"Transform": {
 				"Translation": {
-					"X": -430.0,
-					"Y": 160.0,
-					"Z": -1510.0
+					"X": -8999.8984375,
+					"Y": 397.77947998046875,
+					"Z": -4995.3798828125
 				}
 			},
 			"StaticFlags": 0,
@@ -3824,9 +3824,9 @@
 			"Name": "Cube 47",
 			"Transform": {
 				"Translation": {
-					"X": -2673.733154296875,
-					"Y": 282.476318359375,
-					"Z": -849.61083984375
+					"X": -2670.0,
+					"Y": 248.31454467773438,
+					"Z": -850.0
 				},
 				"Scale": {
 					"X": 3.0,
@@ -3851,6 +3851,171 @@
 			"ID": "57b2bc004425803e953c3996480c928d",
 			"TypeName": "FlaxEngine.BoxCollider",
 			"ParentID": "c672dc3d47297a3e03c667b8577f55f0",
+			"Name": "BoxCollider",
+			"Transform": {
+				"Scale": {
+					"X": 0.3333333432674408,
+					"Y": 4.0,
+					"Z": 0.3333333432674408
+				}
+			},
+			"Layer": 1,
+			"Size": {
+				"X": 300.0,
+				"Y": 25.0,
+				"Z": 300.0
+			}
+		},
+		{
+			"ID": "b93a11814eb92b2dec8342a97162bd8e",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "08dd3d0524314f7c7163248ae1aedee2",
+			"Name": "Cube 48",
+			"Transform": {
+				"Translation": {
+					"X": -2670.0,
+					"Y": 245.58169555664063,
+					"Z": -831.6647338867188
+				},
+				"Orientation": {
+					"X": 0.0,
+					"Y": 0.07908142358064651,
+					"Z": 0.0,
+					"W": 0.9968681335449219
+				},
+				"Scale": {
+					"X": 3.0,
+					"Y": 0.25,
+					"Z": 3.0
+				}
+			},
+			"Layer": 1,
+			"Model": "b43f0f8f4aaba3f3156896a5a22ba493",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "54981ae34ee8fad41ed3ae841952cc9d",
+			"TypeName": "FlaxEngine.BoxCollider",
+			"ParentID": "b93a11814eb92b2dec8342a97162bd8e",
+			"Name": "BoxCollider",
+			"Transform": {
+				"Scale": {
+					"X": 0.3333333432674408,
+					"Y": 4.0,
+					"Z": 0.3333333432674408
+				}
+			},
+			"Layer": 1,
+			"Size": {
+				"X": 300.0,
+				"Y": 25.0,
+				"Z": 300.0
+			}
+		},
+		{
+			"ID": "34819c5641667503acc1feb545abe3e2",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "08dd3d0524314f7c7163248ae1aedee2",
+			"Name": "Cube 49",
+			"Transform": {
+				"Translation": {
+					"X": -2576.86376953125,
+					"Y": 16.724761962890625,
+					"Z": -1040.8011474609375
+				},
+				"Orientation": {
+					"X": -0.09472630172967911,
+					"Y": 0.7007331848144531,
+					"Z": 0.7007330656051636,
+					"W": 0.09472644329071045
+				},
+				"Scale": {
+					"X": 3.0,
+					"Y": 0.25,
+					"Z": 3.0
+				}
+			},
+			"Layer": 1,
+			"Model": "b43f0f8f4aaba3f3156896a5a22ba493",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "e03f544c4ee1375a62611d83db98b127",
+			"TypeName": "FlaxEngine.BoxCollider",
+			"ParentID": "34819c5641667503acc1feb545abe3e2",
+			"Name": "BoxCollider",
+			"Transform": {
+				"Scale": {
+					"X": 0.3333333432674408,
+					"Y": 4.0,
+					"Z": 0.3333333432674408
+				}
+			},
+			"Layer": 1,
+			"Size": {
+				"X": 300.0,
+				"Y": 25.0,
+				"Z": 300.0
+			}
+		},
+		{
+			"ID": "5abd74d64d8fb86ccdcaabb49c91f7b3",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "08dd3d0524314f7c7163248ae1aedee2",
+			"Name": "Cube 50",
+			"Transform": {
+				"Translation": {
+					"X": -2576.86376953125,
+					"Y": -23.520721435546875,
+					"Z": -1062.4404296875
+				},
+				"Orientation": {
+					"X": 0.002215708838775754,
+					"Y": 0.7071033716201782,
+					"Z": 0.7071032524108887,
+					"W": -0.0022155779879540205
+				},
+				"Scale": {
+					"X": 3.0,
+					"Y": 0.25,
+					"Z": 3.0
+				}
+			},
+			"Layer": 1,
+			"Model": "b43f0f8f4aaba3f3156896a5a22ba493",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "88202cbc4831f44905077c8d84e048d7",
+			"TypeName": "FlaxEngine.BoxCollider",
+			"ParentID": "5abd74d64d8fb86ccdcaabb49c91f7b3",
 			"Name": "BoxCollider",
 			"Transform": {
 				"Scale": {
@@ -10944,6 +11109,318 @@
 			"Name": "SphereCollider",
 			"Layer": 1,
 			"Tag": "ground"
+		},
+		{
+			"ID": "6e42b4df4aa3ad917b3c07859edc85c5",
+			"TypeName": "FlaxEngine.RigidBody",
+			"ParentID": "089f82a35fae117d03819b6a428669c8",
+			"Name": "RigidBody 3",
+			"Transform": {
+				"Translation": {
+					"X": 980.0,
+					"Y": -70.0,
+					"Z": 1430.0
+				}
+			},
+			"Mass": 1000.0000610351563
+		},
+		{
+			"ID": "59012c034a72198f7c65ac8d6134bcc6",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "6e42b4df4aa3ad917b3c07859edc85c5",
+			"Name": "Cube",
+			"Model": "b43f0f8f4aaba3f3156896a5a22ba493",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "398e53ea45a9434fcd5df197463a272b",
+			"TypeName": "FlaxEngine.BoxCollider",
+			"ParentID": "6e42b4df4aa3ad917b3c07859edc85c5",
+			"Name": "BoxCollider",
+			"Layer": 1,
+			"Material": "08dd334e0d92c14ac8325372d85ebc70"
+		},
+		{
+			"ID": "bd3e986c4cc43e5bbf4bd18f6b2548b9",
+			"TypeName": "FlaxEngine.RigidBody",
+			"ParentID": "089f82a35fae117d03819b6a428669c8",
+			"Name": "RigidBody 4",
+			"Transform": {
+				"Translation": {
+					"X": 980.0,
+					"Y": -70.0,
+					"Z": 1300.0
+				}
+			},
+			"Mass": 1000.0000610351563
+		},
+		{
+			"ID": "f6807fd4481b7e6377405d9822f4862a",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "bd3e986c4cc43e5bbf4bd18f6b2548b9",
+			"Name": "Cube",
+			"Model": "b43f0f8f4aaba3f3156896a5a22ba493",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "307a1e10474854b30ae657a779744d83",
+			"TypeName": "FlaxEngine.BoxCollider",
+			"ParentID": "bd3e986c4cc43e5bbf4bd18f6b2548b9",
+			"Name": "BoxCollider",
+			"Layer": 1,
+			"Material": "08dd334e0d92c14ac8325372d85ebc70"
+		},
+		{
+			"ID": "1c75bb054b8fa481a223d68bdb4f0312",
+			"TypeName": "FlaxEngine.RigidBody",
+			"ParentID": "089f82a35fae117d03819b6a428669c8",
+			"Name": "RigidBody 5",
+			"Transform": {
+				"Translation": {
+					"X": 980.0,
+					"Y": -70.0,
+					"Z": 1170.0
+				}
+			},
+			"Mass": 1000.0000610351563
+		},
+		{
+			"ID": "ee4204904ec743fbccc6df8fb378729c",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "1c75bb054b8fa481a223d68bdb4f0312",
+			"Name": "Cube",
+			"Model": "b43f0f8f4aaba3f3156896a5a22ba493",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "fd1bb5e342538c633a5f3193fbf1d1ee",
+			"TypeName": "FlaxEngine.BoxCollider",
+			"ParentID": "1c75bb054b8fa481a223d68bdb4f0312",
+			"Name": "BoxCollider",
+			"Layer": 1,
+			"Material": "08dd334e0d92c14ac8325372d85ebc70"
+		},
+		{
+			"ID": "c8cad4d44001d4a292fdfeace1b24b76",
+			"TypeName": "FlaxEngine.RigidBody",
+			"ParentID": "089f82a35fae117d03819b6a428669c8",
+			"Name": "RigidBody 6",
+			"Transform": {
+				"Translation": {
+					"X": 980.0,
+					"Y": -70.0,
+					"Z": 1050.0
+				}
+			},
+			"Mass": 1000.0000610351563
+		},
+		{
+			"ID": "8370a9dd4a30b1032a88a5899518a450",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "c8cad4d44001d4a292fdfeace1b24b76",
+			"Name": "Cube",
+			"Model": "b43f0f8f4aaba3f3156896a5a22ba493",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "9a5d43c44a361e5834281180745535a0",
+			"TypeName": "FlaxEngine.BoxCollider",
+			"ParentID": "c8cad4d44001d4a292fdfeace1b24b76",
+			"Name": "BoxCollider",
+			"Layer": 1,
+			"Material": "08dd334e0d92c14ac8325372d85ebc70"
+		},
+		{
+			"ID": "bc1da15a4a9526de8a3da6a777e58bd3",
+			"TypeName": "FlaxEngine.RigidBody",
+			"ParentID": "089f82a35fae117d03819b6a428669c8",
+			"Name": "RigidBody 7",
+			"Transform": {
+				"Translation": {
+					"X": 1110.0,
+					"Y": -70.0,
+					"Z": 1220.0
+				}
+			},
+			"Mass": 1000.0000610351563
+		},
+		{
+			"ID": "1430f3ad48cc286a4911719ea272b56e",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "bc1da15a4a9526de8a3da6a777e58bd3",
+			"Name": "Cube",
+			"Model": "b43f0f8f4aaba3f3156896a5a22ba493",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "4b0247e5466fe5a159730a8b1b759a7a",
+			"TypeName": "FlaxEngine.BoxCollider",
+			"ParentID": "bc1da15a4a9526de8a3da6a777e58bd3",
+			"Name": "BoxCollider",
+			"Layer": 1,
+			"Material": "08dd334e0d92c14ac8325372d85ebc70"
+		},
+		{
+			"ID": "62125f094c59d7774f61e592dd87eaad",
+			"TypeName": "FlaxEngine.RigidBody",
+			"ParentID": "089f82a35fae117d03819b6a428669c8",
+			"Name": "RigidBody 8",
+			"Transform": {
+				"Translation": {
+					"X": 1240.0,
+					"Y": -70.0,
+					"Z": 1250.0
+				}
+			},
+			"Mass": 1000.0000610351563
+		},
+		{
+			"ID": "1428eccb47379366a6246db50d00371b",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "62125f094c59d7774f61e592dd87eaad",
+			"Name": "Cube",
+			"Model": "b43f0f8f4aaba3f3156896a5a22ba493",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "16360f734edf345a267b078f33561966",
+			"TypeName": "FlaxEngine.BoxCollider",
+			"ParentID": "62125f094c59d7774f61e592dd87eaad",
+			"Name": "BoxCollider",
+			"Layer": 1,
+			"Material": "08dd334e0d92c14ac8325372d85ebc70"
+		},
+		{
+			"ID": "6a1ae801488fa4bde6c12296e98c554a",
+			"TypeName": "FlaxEngine.RigidBody",
+			"ParentID": "089f82a35fae117d03819b6a428669c8",
+			"Name": "RigidBody 9",
+			"Transform": {
+				"Translation": {
+					"X": 860.0,
+					"Y": -70.0,
+					"Z": 1240.0
+				}
+			},
+			"Mass": 1000.0000610351563
+		},
+		{
+			"ID": "498fa7a24ab36360346caba2a5ce2988",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "6a1ae801488fa4bde6c12296e98c554a",
+			"Name": "Cube",
+			"Model": "b43f0f8f4aaba3f3156896a5a22ba493",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "c3f43a714eba8b12994b3b95e6502d97",
+			"TypeName": "FlaxEngine.BoxCollider",
+			"ParentID": "6a1ae801488fa4bde6c12296e98c554a",
+			"Name": "BoxCollider",
+			"Layer": 1,
+			"Material": "08dd334e0d92c14ac8325372d85ebc70"
+		},
+		{
+			"ID": "0bfa109440ffa928a1e918a9a74be68c",
+			"TypeName": "FlaxEngine.RigidBody",
+			"ParentID": "089f82a35fae117d03819b6a428669c8",
+			"Name": "RigidBody 10",
+			"Transform": {
+				"Translation": {
+					"X": 680.0,
+					"Y": -70.0,
+					"Z": 1270.0
+				}
+			},
+			"Mass": 1000.0000610351563
+		},
+		{
+			"ID": "6fe3e2814171d3e0883d86a28a59b231",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "0bfa109440ffa928a1e918a9a74be68c",
+			"Name": "Cube",
+			"Model": "b43f0f8f4aaba3f3156896a5a22ba493",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "4872c3c34fbd6fb70a671c8c4ddd92b1",
+			"TypeName": "FlaxEngine.BoxCollider",
+			"ParentID": "0bfa109440ffa928a1e918a9a74be68c",
+			"Name": "BoxCollider",
+			"Layer": 1,
+			"Material": "08dd334e0d92c14ac8325372d85ebc70"
 		},
 		{
 			"ID": "089f82831b465028d7467efa882a0ae4",

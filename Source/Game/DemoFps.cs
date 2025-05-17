@@ -211,6 +211,7 @@ public class DemoFps : Script, IKinematicCharacter
 
     public void KinematicCollision(RayCastHit hit)
     {
+		Debug.Log("Kinematic collision event");
 		//jumping against ceilings its bit awkward without reseting the Y velocity upon ceiling contact
 		if(Math.Round(Vector3.Dot(hit.Normal, _kcc.GravityEulerNormalized), 4, MidpointRounding.ToZero) > 0.0f &&
 			_velocity.Y > 0)
