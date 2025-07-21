@@ -144,7 +144,7 @@ public class DemoFps : Script, IKinematicCharacter
 			if(_kcc.IsGrounded)
 			{
 				_kcc.ForceUnground();
-				_velocity.Y = 800 * Time.DeltaTime;
+				_velocity.Y = 14.0f;
 			}
 		}
 		
