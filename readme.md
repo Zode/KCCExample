@@ -6,4 +6,5 @@ The project has been set up with the following controls:
 - mouse look
 - WASD move
 - space jump
+- shift run
 - 1 to teleport to a moving platform
