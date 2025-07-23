@@ -125,7 +125,7 @@ public class DemoFps : Script, IKinematicCharacter
 		if(!_kcc.IsGrounded)
 		{
 			//airmove
-			_velocity.Y -= 30 * Time.DeltaTime;
+			_velocity.Y -= 0.6f;
 			Q3Accelerate(input, 5 * speedMultiplier, 2.0f);
 		}
 		else
