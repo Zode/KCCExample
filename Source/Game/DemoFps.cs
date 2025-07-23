@@ -213,9 +213,22 @@ public class DemoFps : Script, IKinematicCharacter
 
     public void KinematicCollision(RayCastHit hit)
     {
-		//jumping against ceilings its bit awkward without reseting the Y velocity upon ceiling contact
-		if(Math.Round(Vector3.Dot(hit.Normal, _kcc.GravityEulerNormalized), 4, MidpointRounding.ToZero) > 0.0f &&
-			_velocity.Y > 0)
+		// Only treat as ceiling if:
+		// 1. The normal faces generally downward (dot with gravity > 0.7)
+		// 2. The collision point is above the character's center (relative to gravity)
+		// 3. The character is moving upward
+
+		// 1. Normal faces downward (ceiling)
+		float normalDotGravity = Vector3.Dot(hit.Normal, _kcc.GravityEulerNormalized);
+
+		// 2. Collision point is above character (relative to gravity)
+		Vector3 characterToHitDistance = hit.Point - _kcc.Position;
+		float hitAbove = Vector3.Dot(characterToHitDistance, -_kcc.GravityEulerNormalized);
+
+		// 3. Character is moving upward (against gravity)
+		float velocityAgainstGravity = Vector3.Dot(_velocity, -_kcc.GravityEulerNormalized);
+
+		if (normalDotGravity > 0.7f && hitAbove > 0 && velocityAgainstGravity > 0)
 		{
 			_velocity.Y = 0.0f;
 		}
