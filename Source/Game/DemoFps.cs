@@ -120,11 +120,13 @@ public class DemoFps : Script, IKinematicCharacter
 		input.Normalize();
 		input *= _cameraOrientation;
 
+  		float speedMultiplier = Input.GetKey(KeyboardKeys.Shift) ? 1.8f : 1.0f;
+
 		if(!_kcc.IsGrounded)
 		{
 			//airmove
 			_velocity.Y -= 30 * Time.DeltaTime;
-			Q3Accelerate(input, 5, 2.0f);
+			Q3Accelerate(input, 5 * speedMultiplier, 2.0f);
 		}
 		else
 		{
@@ -135,7 +137,7 @@ public class DemoFps : Script, IKinematicCharacter
 			}
 
 			Q3Friction(12, 6.0f, 1.0f);
-			Q3Accelerate(input, 10, 12.0f);
+			Q3Accelerate(input, 10 * speedMultiplier, 12.0f);
 		}
 
 		//auto-bhop wheeeee!
