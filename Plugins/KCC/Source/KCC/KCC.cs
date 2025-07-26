@@ -48,7 +48,7 @@ public class KCC : GamePlugin
             HomepageUrl = null,
             RepositoryUrl = "https://github.com/Zode/KCC",
             Description = "Kinematic Character Controller",
-            Version = new Version(1, 2, 0),
+            Version = new Version(2, 0, 0),
             IsAlpha = false,
             IsBeta = false,
         };
@@ -68,9 +68,8 @@ public class KCC : GamePlugin
             return;
         }
 
-        Scripting.LateUpdate += OnLateUpdate;
         Scripting.FixedUpdate += OnFixedUpdate;
-        Scripting.Update += OnUpdate;
+        Scripting.Draw += OnDraw;
 
         _kccSettings = kccSettingsJson.CreateInstance<KCCSettings>();
         _kinematicMovers = new(_kccSettings.MoverInitialCapacity);
@@ -80,31 +79,15 @@ public class KCC : GamePlugin
     /// <inheritdoc />
     public override void Deinitialize()
     {
-        Scripting.Update -= OnUpdate;
+        Scripting.Draw -= OnDraw;
         Scripting.FixedUpdate -= OnFixedUpdate;
-        Scripting.LateUpdate -= OnLateUpdate;
         base.Deinitialize();
     }
 
     /// <inheritdoc />
-    public void OnLateUpdate()
+    public void OnDraw()
     {
-        if(_kccSettings is null ||
-            !_kccSettings.Interpolate ||
-            _kccSettings.InterpolationMode != InterpolationMode.LateUpdate)
-        {
-            return;
-        }
-
-        InterpolationUpdate();
-    }
-
-    /// <inheritdoc />
-    public void OnUpdate()
-    {
-        if(_kccSettings is null ||
-            !_kccSettings.Interpolate ||
-            _kccSettings.InterpolationMode != InterpolationMode.Update)
+        if(_kccSettings is null || !_kccSettings.Interpolate)
         {
             return;
         }
@@ -121,7 +104,7 @@ public class KCC : GamePlugin
         }
 
         //don't bother processing when game is paused
-        //also fixes an issue where CastCollider would be fed a non-normalized direction as result of game being paused
+        //also fixes an issue where CastCollider would be fed a non-normalized direction as a result of game being paused
         if(!Level.TickEnabled || Time.TimeScale == 0.0f || Time.GamePaused)
         {
             return;
@@ -198,7 +181,7 @@ public class KCC : GamePlugin
 
     /// <summary>
     /// Saves necessary info for interpolation before the simulation.
-    /// All KCC Actors are moved to their finalized positions from previous frame, forcing a finish to the interpolation.
+    /// All KCC Actors are moved to their finalized positions from the previous frame, forcing a finish to the interpolation.
     /// </summary>
     public void PreSimulationUpdate()
     {
@@ -260,7 +243,7 @@ public class KCC : GamePlugin
     /// <summary>
     /// Sets up for interpolation after the simulation.
     /// All KCC Actors are moved back to their initial position, so that the interpolation appears correct.
-    /// If interpolation is disabled all KCC Actors are moved to their final position.
+    /// If interpolation is disabled, all KCC Actors are moved to their final position.
     /// </summary>
     public void PostSimulationUpdate()
     {
@@ -315,7 +298,7 @@ public class KCC : GamePlugin
     }
 
     /// <summary>
-    /// Processes per frame interpolation for all KCC Actors, moving them between ther initial and final positions as determined by last KCC simulation executed.
+    /// Processes per frame interpolation for all KCC Actors, moving them between the initial and final positions as determined by the last KCC simulation executed.
     /// </summary>
     public void InterpolationUpdate()
     {

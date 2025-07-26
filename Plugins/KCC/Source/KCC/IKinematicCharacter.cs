@@ -9,36 +9,39 @@ namespace KCC;
 public interface IKinematicCharacter
 {
 	/// <summary>
-	/// Called when the simulation needs to know the velocity and orientation for a tick before sweeping movement,
-	/// the character will attempt to move until the length of the velocity is more or less zero.
+	/// Called when the simulation needs to know the desired movement for a tick before sweeping movement,
+	/// the character will attempt to process the move until the length of the movement is more or less zero.
+	/// KCC will attempt to move the character by the given movement vector.
+	/// Change the character orientation here by calling SetOrientation on it.
 	/// You may transfer root motion to the system by extracting it from the animation and applying it here.
+	/// You may also need to multiply this value by deltaTime depending on your situation.
 	/// </summary>
-	/// <param name="velocity"></param>
-	/// <param name="orientation"></param>
-	public void KinematicMoveUpdate(out Vector3 velocity, out Quaternion orientation);
+	/// <param name="movement">The desired movement for this tick</param>
+	public void KinematicMoveUpdate(out Vector3 movement);
 	/// <summary>
-	/// Called the the character velocity needs to be projected along side the current ground plane during the sweep,
-	/// the velocity supplied here is the remaining velocity for the tick at the point where this callback is triggered.
+	/// Called the character movement needs to be projected alongside the current ground plane during the sweep,
+	/// the movement supplied here is the remaining movement for the tick at the point where this callback is triggered.
 	/// This is necessary if you wish to move up sloped surfaces without issues.
 	/// Vector3’s ProjectOnPlane will suffice for modern use.
 	/// Tip: the KinematicCharacterController supplies the function “GroundTangent” to help with retro style projection where the ground normal does not affect any lateral speed.
 	/// </summary>
-	/// <param name="velocity">Current velocity</param>
+	/// <param name="movement">Current movement delta</param>
 	/// <param name="gravityEulerNormalized">Current normalized gravity as euler angles</param>
-	/// <returns>Velocity</returns>
-	public Vector3 KinematicGroundProjection(Vector3 velocity, Vector3 gravityEulerNormalized);
+	/// <returns>New movement</returns>
+	public Vector3 KinematicGroundProjection(Vector3 movement, Vector3 gravityEulerNormalized);
 	/// <summary>
-	/// Called when the character collides with something during a sweep, this can be used to precisely filter out collisions (eg. teammates).
+	/// Called when the character collides with something during a sweep, this can be used to precisely filter out collisions (e.g. teammates).
 	/// </summary>
 	/// <param name="other"></param>
 	/// <returns>True if should collide, False if should pass through</returns>
 	public bool KinematicCollisionValid(Collider other);
 	/// <summary>
-	/// Called when the character collides with something during a sweep,
-	/// this may be useful if you need to have something external react to the collision as the final position of the controller’s collider may not actually end up colliding with whatever it hit at the end of the sweep.
+	/// Called when the character collides with something during a sweep.
+	/// This may be useful if you need to have something external react to the collision as the final position of the controller’s collider may not actually end up colliding with whatever it hit at the end of the sweep,
+	/// or you need to adjust the hit itself.
 	/// </summary>
 	/// <param name="hit"></param>
-	public void KinematicCollision(RayCastHit hit);
+	public void KinematicCollision(ref RayCastHit hit);
 	/// <summary>
 	/// Called when the character unstucks itself during a sweep,
 	/// this may be useful if you want to implement crushers for example.
@@ -68,7 +71,7 @@ public interface IKinematicCharacter
 	public void KinematicAttachedRigidBodyEvent(bool attached, RigidBody? rigidBody);
 	/// <summary>
 	/// Called for every tick the character is attached to a rigidbody to move with, 
-	/// may be useful if you wish to rotate the camera along side the rigidbody it is attached to.
+	/// may be useful if you wish to rotate the camera alongside the rigidbody it is attached to.
 	/// </summary>
 	/// <param name="rigidBody"></param>
 	public void KinematicAttachedRigidBodyUpdate(RigidBody rigidBody);

@@ -112,7 +112,7 @@ public class DemoFps : Script, IKinematicCharacter
 		_velocity.Z += accelerationToAdd * targetDir.Z;
 	}	
 
-    public void KinematicMoveUpdate(out Vector3 velocity, out Quaternion orientation)
+    public void KinematicMoveUpdate(out Vector3 movement)
     {
 		Vector3 input = Vector3.Zero;
 		input.Z += Input.GetAxis("forwards");
@@ -153,8 +153,9 @@ public class DemoFps : Script, IKinematicCharacter
 		//notice how this is clamped to a low value because we want a smooth transition between extremes
 		float angle = Math.Clamp(1.0f - (Quaternion.AngleBetween(_smoothedForwardOrientation, _forwardOrientation) / 180.0f), 0.0f, 0.2f);
 		_smoothedForwardOrientation = Quaternion.Slerp(_smoothedForwardOrientation, _forwardOrientation, angle);
-		orientation = _smoothedForwardOrientation;
-		velocity = _velocity;
+		
+		_kcc.SetOrientation(_smoothedForwardOrientation);
+		movement = _velocity;
     }
 
 	public bool KinematicCollisionValid(Collider other)
@@ -179,9 +180,9 @@ public class DemoFps : Script, IKinematicCharacter
         _camera.LocalOrientation = Quaternion.RotationY((float)angularVelocity.Y * Time.DeltaTime) * _camera.LocalOrientation;
     }
 
-    public Vector3 KinematicGroundProjection(Vector3 velocity, Vector3 gravityEulerNormalized)
+    public Vector3 KinematicGroundProjection(Vector3 movement, Vector3 gravityEulerNormalized)
     {
-        return _kcc.GroundTangent(velocity.Normalized) * velocity.Length;
+        return _kcc.GroundTangent(movement.Normalized) * movement.Length;
     }
 
     public bool KinematicCanAttachToRigidBody(RigidBody rigidBody)
@@ -211,7 +212,7 @@ public class DemoFps : Script, IKinematicCharacter
     {
     }
 
-    public void KinematicCollision(RayCastHit hit)
+    public void KinematicCollision(ref RayCastHit hit)
     {
 		// Only treat as ceiling if:
 		// 1. The normal faces generally downward (dot with gravity > 0.7)

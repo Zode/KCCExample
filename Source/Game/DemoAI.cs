@@ -23,6 +23,8 @@ public class DemoAI : Script, IKinematicCharacter
 		_kcc.Controller = this;
 		_xRandomizer = _rnd.RandRange(0.5f, 1.5f);
 		_zRandomizer = _rnd.RandRange(0.5f, 1.5f);
+
+		_kcc.SetOrientation(Quaternion.FromDirection(Vector3.Forward));
     }
 
     /// <inheritdoc/>
@@ -84,7 +86,7 @@ public class DemoAI : Script, IKinematicCharacter
 		_velocity.Z += accelerationToAdd * targetDir.Z;
 	}
 
-    public void KinematicMoveUpdate(out Vector3 velocity, out Quaternion orientation)
+    public void KinematicMoveUpdate(out Vector3 movement)
     {
 		Vector3 input = Vector3.Zero;
 		input.X = Mathf.Sin(Time.GameTime * _xRandomizer);
@@ -94,7 +96,7 @@ public class DemoAI : Script, IKinematicCharacter
 		if(!_kcc.IsGrounded)
 		{
 			//airmove
-			_velocity.Y -= 30 * Time.DeltaTime;
+			_velocity.Y -= 0.6f;
 			Q3Accelerate(input, 5, 2.0f);
 		}
 		else
@@ -109,8 +111,7 @@ public class DemoAI : Script, IKinematicCharacter
 			Q3Accelerate(input, 6, 12.0f);
 		}
 		
-		orientation = Quaternion.FromDirection(Vector3.Forward);
-		velocity = _velocity;
+		movement = _velocity;
     }
 
 	public bool KinematicCollisionValid(Collider other)
@@ -131,9 +132,9 @@ public class DemoAI : Script, IKinematicCharacter
     {
     }
 
-    public Vector3 KinematicGroundProjection(Vector3 velocity, Vector3 gravityEulerNormalized)
+    public Vector3 KinematicGroundProjection(Vector3 movement, Vector3 gravityEulerNormalized)
     {
-        return _kcc.GroundTangent(velocity.Normalized) * velocity.Length;
+        return _kcc.GroundTangent(movement.Normalized) * movement.Length;
     }
 
     public bool KinematicCanAttachToRigidBody(RigidBody rigidBody)
@@ -163,7 +164,7 @@ public class DemoAI : Script, IKinematicCharacter
     {
     }
 
-    public void KinematicCollision(RayCastHit hit)
+    public void KinematicCollision(ref RayCastHit hit)
     {
 		//jumping against ceilings its bit awkward without reseting the Y velocity upon ceiling contact
 		if(Vector3.Dot(hit.Normal, _kcc.GravityEulerNormalized) > 0.0f &&
