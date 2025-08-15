@@ -18,6 +18,27 @@ public class DemoFps : Script, IKinematicCharacter
 	KinematicCharacterController _kcc;
 	private Vector3 _velocity;
 
+
+	private float deltaTime => 1.0f / Time.PhysicsFPS;
+	private float forceMultiplier => 60.0f / Time.PhysicsFPS ;
+
+	private const float JUMP_SPEED = 14.0f; // Jump speed in units per second
+	private const float GRAVITY = 30.0f; // Gravity in units per second squared
+	private const float WALK_SPEED = 10.0f; // Walk speed in units per second
+	private const float WALK_ACCELERATION = 12.0f; // Walk acceleration in units per second squared
+	private const float DECELERATION_SPEED = 10.0f; // Deceleration speed in units per second
+	private const float FRICTION = 6.0f; // Friction coefficient
+
+	/// <summary>
+	/// Gets the current camera orientation.
+	/// </summary>
+	public Quaternion CameraOrientation => _cameraOrientation;
+
+	/// <summary>
+	/// Gets the current forward orientation.
+	/// </summary>
+	public Quaternion ForwardOrientation => _forwardOrientation;
+
 	/// <inheritdoc/>
     public override void OnEnable()
     {
@@ -35,6 +56,7 @@ public class DemoFps : Script, IKinematicCharacter
 		Screen.CursorVisible = true;
     }
 
+	int physicsFpsMode = 2;
     /// <inheritdoc/>
     public override void OnUpdate()
     {
@@ -58,6 +80,19 @@ public class DemoFps : Script, IKinematicCharacter
 		{
 			_kcc.SetPosition(teleport.Position);
 		}
+
+		if(Input.GetKeyDown(KeyboardKeys.Q)) {
+			physicsFpsMode = ++physicsFpsMode % 4;
+			Debug.Log("Switching PhysicsFPS mode to: " + physicsFpsMode);
+			Time.PhysicsFPS = physicsFpsMode switch
+			{
+				0 => 15,
+				1 => 30,
+				2 => 60,
+				3 => 120,
+				_ => Time.PhysicsFPS
+			};
+		}
     }
 
 	public void SetForward(Quaternion orientation)
@@ -75,7 +110,7 @@ public class DemoFps : Script, IKinematicCharacter
 		if(_kcc.IsGrounded)
 		{
 			float control = (float)tempVelocity.Length < decelerationSpeed ? decelerationSpeed : (float)tempVelocity.Length;
-			drop = control * friction * Time.DeltaTime * multiplier;
+			drop = control * friction * deltaTime * multiplier;
 		}
 
 		float newSpeed = (float)tempVelocity.Length - drop;
@@ -97,12 +132,12 @@ public class DemoFps : Script, IKinematicCharacter
 	{
 		float directionPenalty = (float)Vector3.Dot(_velocity, targetDir);
 		float addSpeed = targetSpeed - directionPenalty;
-		if(addSpeed <= 0.0f)
+		if(addSpeed < 0.0f)
 		{
 			return;
 		}
 
-		float accelerationToAdd = acceleration * Time.DeltaTime * targetSpeed;
+		float accelerationToAdd = acceleration * deltaTime * targetSpeed;
 		if(accelerationToAdd > addSpeed)
 		{
 			accelerationToAdd = addSpeed;
@@ -120,13 +155,13 @@ public class DemoFps : Script, IKinematicCharacter
 		input.Normalize();
 		input *= _cameraOrientation;
 
-  		float speedMultiplier = Input.GetKey(KeyboardKeys.Shift) ? 1.8f : 1.0f;
+		float speedMultiplier = forceMultiplier * (Input.GetKey(KeyboardKeys.Shift) ? 1.8f : 1.0f);
 
 		if(!_kcc.IsGrounded)
 		{
 			//airmove
-			_velocity.Y -= 0.6f;
-			Q3Accelerate(input, 5 * speedMultiplier, 2.0f);
+			_velocity.Y -= GRAVITY * deltaTime * forceMultiplier;
+			Q3Accelerate(input, 5 * speedMultiplier, 2.0f * forceMultiplier);
 		}
 		else
 		{
@@ -136,8 +171,8 @@ public class DemoFps : Script, IKinematicCharacter
 				_velocity.Y = 0.0f;
 			}
 
-			Q3Friction(12, 6.0f, 1.0f);
-			Q3Accelerate(input, 10 * speedMultiplier, 12.0f);
+			Q3Friction(DECELERATION_SPEED, FRICTION, forceMultiplier);
+			Q3Accelerate(input, WALK_SPEED * speedMultiplier, WALK_ACCELERATION * forceMultiplier);
 		}
 
 		//auto-bhop wheeeee!
@@ -146,7 +181,7 @@ public class DemoFps : Script, IKinematicCharacter
 			if(_kcc.IsGrounded)
 			{
 				_kcc.ForceUnground();
-				_velocity.Y = 14.0f;
+				_velocity.Y = JUMP_SPEED * forceMultiplier;
 			}
 		}
 		
@@ -177,7 +212,7 @@ public class DemoFps : Script, IKinematicCharacter
     {
 		//rotate camera with any platform we may be standing on
 		Vector3 angularVelocity = rigidBody.AngularVelocity;
-        _camera.LocalOrientation = Quaternion.RotationY((float)angularVelocity.Y * Time.DeltaTime) * _camera.LocalOrientation;
+        _camera.LocalOrientation = Quaternion.RotationY((float)angularVelocity.Y * deltaTime) * _camera.LocalOrientation;
     }
 
     public Vector3 KinematicGroundProjection(Vector3 movement, Vector3 gravityEulerNormalized)
@@ -233,6 +268,22 @@ public class DemoFps : Script, IKinematicCharacter
 		{
 			_velocity.Y = 0.0f;
 		}
+
+		// Handle wall collisions during jumps  
+		if(!_kcc.IsGrounded)  
+		{  
+			// Check if this is a wall collision (normal is roughly horizontal)  
+			float wallThreshold = 0.1f; // Adjust as needed  
+			if(Math.Abs(Vector3.Dot(hit.Normal, _kcc.GravityEulerNormalized)) < wallThreshold)  
+			{  
+				// Remove velocity component toward the wall  
+				Vector3 velocityTowardWall = Vector3.Project(_velocity, -hit.Normal);  
+				if(Vector3.Dot(velocityTowardWall, -hit.Normal) > 0)  
+				{  
+					_velocity -= velocityTowardWall;  
+				}  
+			}  
+		}  
     }
 
     public void KinematicUnstuckEvent(Collider collider, Vector3 penetrationDirection, float penetrationDistance)
