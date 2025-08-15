@@ -8724,6 +8724,7 @@
 			"ID": "089f82a35fae117d03819b6a428669c8",
 			"TypeName": "FlaxEngine.EmptyActor",
 			"ParentID": "08dd30d80479d6544b3c42956d2a1555",
+			"IsActive": false,
 			"Name": "AIBenchmark",
 			"Transform": {
 				"Translation": {
