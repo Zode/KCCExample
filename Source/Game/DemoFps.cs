@@ -233,6 +233,22 @@ public class DemoFps : Script, IKinematicCharacter
 		{
 			_velocity.Y = 0.0f;
 		}
+
+		// Handle wall collisions during jumps  
+		if(!_kcc.IsGrounded && _velocity.Y > 0)  
+		{  
+			// Check if this is a wall collision (normal is roughly horizontal)  
+			float wallThreshold = 0.1f; // Adjust as needed  
+			if(Math.Abs(Vector3.Dot(hit.Normal, _kcc.GravityEulerNormalized)) < wallThreshold)  
+			{  
+				// Remove velocity component toward the wall  
+				Vector3 velocityTowardWall = Vector3.Project(_velocity, -hit.Normal);  
+				if(Vector3.Dot(velocityTowardWall, -hit.Normal) > 0)  
+				{  
+					_velocity -= velocityTowardWall;  
+				}  
+			}  
+		}  
     }
 
     public void KinematicUnstuckEvent(Collider collider, Vector3 penetrationDirection, float penetrationDistance)

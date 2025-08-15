@@ -926,10 +926,24 @@ public class KinematicCharacterController : KinematicBase
             }
 
             //also slow down depending on the angle of hit plane (and physics material if enabled)
-            _internalDelta *= (1.0f - Math.Abs(Vector3.Dot(_internalDelta.Normalized, trace.Normal))) * SlideMultiplier;
-            if(SlideAccountForPhysicsMaterial && trace.Material is not null)
-            {
-                _internalDelta *= 1.0f - trace.Material.Friction;
+            if (IsGrounded)  
+            {  
+                // Only apply slide multiplier when grounded  
+                _internalDelta *= (1.0f - Math.Abs(Vector3.Dot(_internalDelta.Normalized, trace.Normal))) * SlideMultiplier;  
+                if(SlideAccountForPhysicsMaterial && trace.Material is not null)  
+                {  
+                    _internalDelta *= 1.0f - trace.Material.Friction;  
+                }  
+            }  
+            else  
+            {  
+                // For airborne movement, only remove velocity component directly toward the collision surface  
+                // but preserve the magnitude of the remaining velocity to maintain jump physics  
+                Vector3 deltaTowardSurface = Vector3.Project(_internalDelta, trace.Normal);  
+                if (Vector3.Dot(deltaTowardSurface, trace.Normal) > 0)  
+                {  
+                    _internalDelta -= deltaTowardSurface;  
+                }  
             }
         }
 
