@@ -10,6 +10,13 @@ namespace Game;
 /// </summary>
 public class DemoFps : Script, IKinematicCharacter
 {
+	private const float JUMP_SPEED = 14.0f; // Jump speed in units per second
+	private const float GRAVITY = 30.0f; // Gravity in units per second squared
+	private const float WALK_SPEED = 10.0f; // Walk speed in units per second
+	private const float WALK_ACCELERATION = 12.0f; // Walk acceleration in units per second squared
+	private const float DECELERATION_SPEED = 10.0f; // Deceleration speed in units per second
+	private const float FRICTION = 6.0f; // Friction coefficient
+
 	private Actor _camera;
 	private Quaternion _cameraOrientation;
 	public Actor teleport;
@@ -17,17 +24,10 @@ public class DemoFps : Script, IKinematicCharacter
 	private Quaternion _smoothedForwardOrientation = Quaternion.FromDirection(Vector3.Forward);
 	KinematicCharacterController _kcc;
 	private Vector3 _velocity;
-
+	private int physicsFpsMode = 2;
 
 	private float deltaTime => 1.0f / Time.PhysicsFPS;
-	private float forceMultiplier => 60.0f / Time.PhysicsFPS ;
-
-	private const float JUMP_SPEED = 14.0f; // Jump speed in units per second
-	private const float GRAVITY = 30.0f; // Gravity in units per second squared
-	private const float WALK_SPEED = 10.0f; // Walk speed in units per second
-	private const float WALK_ACCELERATION = 12.0f; // Walk acceleration in units per second squared
-	private const float DECELERATION_SPEED = 10.0f; // Deceleration speed in units per second
-	private const float FRICTION = 6.0f; // Friction coefficient
+	private float forceMultiplier => 60.0f / Time.PhysicsFPS;
 
 	/// <summary>
 	/// Gets the current camera orientation.
@@ -43,8 +43,10 @@ public class DemoFps : Script, IKinematicCharacter
     public override void OnEnable()
     {
 		SetForward(Quaternion.FromDirection(Vector3.Forward));
+
     	_kcc = Actor.As<KinematicCharacterController>();
 		_kcc.Controller = this;
+
 		_camera = Actor.GetChild<Camera>();
 		Screen.CursorLock = CursorLockMode.Locked;
     }
@@ -56,7 +58,7 @@ public class DemoFps : Script, IKinematicCharacter
 		Screen.CursorVisible = true;
     }
 
-	int physicsFpsMode = 2;
+	
     /// <inheritdoc/>
     public override void OnUpdate()
     {
@@ -247,43 +249,49 @@ public class DemoFps : Script, IKinematicCharacter
     {
     }
 
-    public void KinematicCollision(ref RayCastHit hit)
-    {
-		// Only treat as ceiling if:
-		// 1. The normal faces generally downward (dot with gravity > 0.7)
-		// 2. The collision point is above the character's center (relative to gravity)
-		// 3. The character is moving upward
-
-		// 1. Normal faces downward (ceiling)
+	private void HandleCeiling(RayCastHit hit)
+	{
+		//Avoid bad feeling movement by bouncing off of the ceiling.
+		//Only treat as ceiling if:
+		//1. The normal faces generally downward (dot with gravity > 0.7)
 		float normalDotGravity = Vector3.Dot(hit.Normal, _kcc.GravityEulerNormalized);
-
-		// 2. Collision point is above character (relative to gravity)
+		//2. The collision point is above the character's center (relative to gravity)
 		Vector3 characterToHitDistance = hit.Point - _kcc.Position;
 		float hitAbove = Vector3.Dot(characterToHitDistance, -_kcc.GravityEulerNormalized);
-
-		// 3. Character is moving upward (against gravity)
+		//3. Character is moving upward (against gravity)
 		float velocityAgainstGravity = Vector3.Dot(_velocity, -_kcc.GravityEulerNormalized);
 
 		if (normalDotGravity > 0.7f && hitAbove > 0 && velocityAgainstGravity > 0)
 		{
 			_velocity.Y = 0.0f;
 		}
+	}
 
-		// Handle wall collisions during jumps  
-		if(!_kcc.IsGrounded)  
+	private void HandleWalls(RayCastHit hit)
+	{
+		if(_kcc.IsGrounded)  
 		{  
-			// Check if this is a wall collision (normal is roughly horizontal)  
-			float wallThreshold = 0.1f; // Adjust as needed  
-			if(Math.Abs(Vector3.Dot(hit.Normal, _kcc.GravityEulerNormalized)) < wallThreshold)  
-			{  
-				// Remove velocity component toward the wall  
-				Vector3 velocityTowardWall = Vector3.Project(_velocity, -hit.Normal);  
-				if(Vector3.Dot(velocityTowardWall, -hit.Normal) > 0)  
-				{  
-					_velocity -= velocityTowardWall;  
-				}  
-			}  
-		}  
+			return;
+		}
+
+		//Handle wall collisions during jumps, so we stop moving horizontally (unlike in Quake3)
+		//Check if this is a wall collision (normal is roughly horizontal)  
+		float wallThreshold = 0.1f; // Adjust as needed  
+		if(Math.Abs(Vector3.Dot(hit.Normal, _kcc.GravityEulerNormalized)) < wallThreshold)  
+		{
+			//Remove velocity component toward the wall 
+			Vector3 velocityTowardWall = Vector3.Project(_velocity, -hit.Normal);  
+			if(Vector3.Dot(velocityTowardWall, -hit.Normal) > 0)  
+			{
+				_velocity -= velocityTowardWall;  
+			}
+		}
+	}
+
+    public void KinematicCollision(ref RayCastHit hit)
+    {
+		HandleCeiling(hit);
+		HandleWalls(hit);
     }
 
     public void KinematicUnstuckEvent(Collider collider, Vector3 penetrationDirection, float penetrationDistance)
