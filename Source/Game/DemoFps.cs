@@ -26,7 +26,7 @@ public class DemoFps : Script, IKinematicCharacter
 	private Vector3 _velocity;
 	private int physicsFpsMode = 2;
 
-	private float deltaTime => 1.0f / Time.PhysicsFPS;
+	private float deltaTime => 1.0f / Time.PhysicsFPS; //HACK: for the time being work around a Flax bug https://github.com/FlaxEngine/FlaxEngine/issues/3585 
 	private float forceMultiplier => 60.0f / Time.PhysicsFPS;
 
 	/// <summary>
