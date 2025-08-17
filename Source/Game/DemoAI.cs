@@ -114,7 +114,7 @@ public class DemoAI : Script, IKinematicCharacter
 		movement = _velocity;
     }
 
-	public bool KinematicCollisionValid(Collider other)
+	public bool KinematicCollisionValid(PhysicsColliderActor other)
 	{
 		if(other.HasTag("nocollide"))
 		{
