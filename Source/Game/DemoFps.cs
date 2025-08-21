@@ -19,15 +19,15 @@ public class DemoFps : Script, IKinematicCharacter
 
 	private Actor _camera;
 	private Quaternion _cameraOrientation;
-	public Actor teleport;
+	public Actor Teleport;
 	private Quaternion _forwardOrientation = Quaternion.FromDirection(Vector3.Forward);
 	private Quaternion _smoothedForwardOrientation = Quaternion.FromDirection(Vector3.Forward);
 	KinematicCharacterController _kcc;
 	private Vector3 _velocity;
-	private int physicsFpsMode = 2;
+	private int _physicsFpsMode = 2;
 
-	private float deltaTime => 1.0f / Time.PhysicsFPS; //HACK: for the time being work around a Flax bug https://github.com/FlaxEngine/FlaxEngine/issues/3585 
-	private float forceMultiplier => 60.0f / Time.PhysicsFPS;
+	private float _deltaTime => 1.0f / Time.PhysicsFPS; //HACK: for the time being work around a Flax bug https://github.com/FlaxEngine/FlaxEngine/issues/3585 
+	private float _forceMultiplier => 60.0f / Time.PhysicsFPS;
 
 	/// <summary>
 	/// Gets the current camera orientation.
@@ -80,13 +80,13 @@ public class DemoFps : Script, IKinematicCharacter
 
 		if(Input.GetKey(KeyboardKeys.Alpha1))
 		{
-			_kcc.SetPosition(teleport.Position);
+			_kcc.SetPosition(Teleport.Position);
 		}
 
 		if(Input.GetKeyDown(KeyboardKeys.Q)) {
-			physicsFpsMode = ++physicsFpsMode % 4;
-			Debug.Log("Switching PhysicsFPS mode to: " + physicsFpsMode);
-			Time.PhysicsFPS = physicsFpsMode switch
+			_physicsFpsMode = ++_physicsFpsMode % 4;
+			Debug.Log("Switching PhysicsFPS mode to: " + _physicsFpsMode);
+			Time.PhysicsFPS = _physicsFpsMode switch
 			{
 				0 => 15,
 				1 => 30,
@@ -112,7 +112,7 @@ public class DemoFps : Script, IKinematicCharacter
 		if(_kcc.IsGrounded)
 		{
 			float control = (float)tempVelocity.Length < decelerationSpeed ? decelerationSpeed : (float)tempVelocity.Length;
-			drop = control * friction * deltaTime * multiplier;
+			drop = control * friction * _deltaTime * multiplier;
 		}
 
 		float newSpeed = (float)tempVelocity.Length - drop;
@@ -139,7 +139,7 @@ public class DemoFps : Script, IKinematicCharacter
 			return;
 		}
 
-		float accelerationToAdd = acceleration * deltaTime * targetSpeed;
+		float accelerationToAdd = acceleration * _deltaTime * targetSpeed;
 		if(accelerationToAdd > addSpeed)
 		{
 			accelerationToAdd = addSpeed;
@@ -157,13 +157,13 @@ public class DemoFps : Script, IKinematicCharacter
 		input.Normalize();
 		input *= _cameraOrientation;
 
-		float speedMultiplier = forceMultiplier * (Input.GetKey(KeyboardKeys.Shift) ? 1.8f : 1.0f);
+		float speedMultiplier = _forceMultiplier * (Input.GetKey(KeyboardKeys.Shift) ? 1.8f : 1.0f);
 
 		if(!_kcc.IsGrounded)
 		{
 			//airmove
-			_velocity.Y -= GRAVITY * deltaTime * forceMultiplier;
-			Q3Accelerate(input, 5 * speedMultiplier, 2.0f * forceMultiplier);
+			_velocity.Y -= GRAVITY * _deltaTime * _forceMultiplier;
+			Q3Accelerate(input, 5 * speedMultiplier, 2.0f * _forceMultiplier);
 		}
 		else
 		{
@@ -173,8 +173,8 @@ public class DemoFps : Script, IKinematicCharacter
 				_velocity.Y = 0.0f;
 			}
 
-			Q3Friction(DECELERATION_SPEED, FRICTION, forceMultiplier);
-			Q3Accelerate(input, WALK_SPEED * speedMultiplier, WALK_ACCELERATION * forceMultiplier);
+			Q3Friction(DECELERATION_SPEED, FRICTION, _forceMultiplier);
+			Q3Accelerate(input, WALK_SPEED * speedMultiplier, WALK_ACCELERATION * _forceMultiplier);
 		}
 
 		//auto-bhop wheeeee!
@@ -183,7 +183,7 @@ public class DemoFps : Script, IKinematicCharacter
 			if(_kcc.IsGrounded)
 			{
 				_kcc.ForceUnground();
-				_velocity.Y = JUMP_SPEED * forceMultiplier;
+				_velocity.Y = JUMP_SPEED * _forceMultiplier;
 			}
 		}
 		
@@ -214,7 +214,7 @@ public class DemoFps : Script, IKinematicCharacter
     {
 		//rotate camera with any platform we may be standing on
 		Vector3 angularVelocity = rigidBody.AngularVelocity;
-        _camera.LocalOrientation = Quaternion.RotationY((float)angularVelocity.Y * deltaTime) * _camera.LocalOrientation;
+        _camera.LocalOrientation = Quaternion.RotationY((float)angularVelocity.Y * _deltaTime) * _camera.LocalOrientation;
     }
 
     public Vector3 KinematicGroundProjection(Vector3 movement, Vector3 gravityEulerNormalized)
