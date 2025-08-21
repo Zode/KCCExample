@@ -274,6 +274,13 @@ public class DemoFps : Script, IKinematicCharacter
 			return;
 		}
 
+		//Early exit in case this is a dynamic rigidbody, since we want to push them
+		RigidBody rb = hit.Collider.AttachedRigidBody;
+		if(rb != null && !rb.IsKinematic)
+		{
+			return;
+		}
+
 		//Handle wall collisions during jumps, so we stop moving horizontally (unlike in Quake3)
 		//Check if this is a wall collision (normal is roughly horizontal)  
 		float wallThreshold = 0.1f; // Adjust as needed  
