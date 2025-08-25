@@ -254,12 +254,12 @@ public class DemoFps : Script, IKinematicCharacter
 		//Avoid bad feeling movement by bouncing off of the ceiling.
 		//Only treat as ceiling if:
 		//1. The normal faces generally downward (dot with gravity > 0.7)
-		float normalDotGravity = Vector3.Dot(hit.Normal, _kcc.GravityEulerNormalized);
+		float normalDotGravity = (float)Vector3.Dot(hit.Normal, _kcc.GravityEulerNormalized);
 		//2. The collision point is above the character's center (relative to gravity)
 		Vector3 characterToHitDistance = hit.Point - _kcc.Position;
-		float hitAbove = Vector3.Dot(characterToHitDistance, -_kcc.GravityEulerNormalized);
+		float hitAbove = (float)Vector3.Dot(characterToHitDistance, -_kcc.GravityEulerNormalized);
 		//3. Character is moving upward (against gravity)
-		float velocityAgainstGravity = Vector3.Dot(_velocity, -_kcc.GravityEulerNormalized);
+		float velocityAgainstGravity = (float)Vector3.Dot(_velocity, -_kcc.GravityEulerNormalized);
 
 		if (normalDotGravity > 0.7f && hitAbove > 0 && velocityAgainstGravity > 0)
 		{
