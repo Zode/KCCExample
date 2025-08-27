@@ -249,24 +249,28 @@ public class DemoFps : Script, IKinematicCharacter
     {
     }
 
+	/// <summary>
+	/// Bounce off the ceiling, avoiding bad feeling movement. A surface is considered a ceiling if its normal points in the general direction of the gravity,
+	/// the contact point is above the character, and the character is moving upwards.
+	/// </summary>
+	/// <param name="hit"></param>
 	private void HandleCeiling(RayCastHit hit)
 	{
-		//Avoid bad feeling movement by bouncing off of the ceiling.
-		//Only treat as ceiling if:
-		//1. The normal faces generally downward (dot with gravity > 0.7)
 		float normalDotGravity = (float)Vector3.Dot(hit.Normal, _kcc.GravityEulerNormalized);
-		//2. The collision point is above the character's center (relative to gravity)
-		Vector3 characterToHitDistance = hit.Point - _kcc.Position;
-		float hitAbove = (float)Vector3.Dot(characterToHitDistance, -_kcc.GravityEulerNormalized);
-		//3. Character is moving upward (against gravity)
+		float hitAbove = (float)Vector3.Dot(hit.Point - _kcc.Position, -_kcc.GravityEulerNormalized);
 		float velocityAgainstGravity = (float)Vector3.Dot(_velocity, -_kcc.GravityEulerNormalized);
 
-		if (normalDotGravity > 0.7f && hitAbove > 0 && velocityAgainstGravity > 0)
+		if (normalDotGravity > 0.7f && hitAbove > 0.0f && velocityAgainstGravity > 0.0f)
 		{
 			_velocity.Y = 0.0f;
 		}
 	}
 
+
+	/// <summary>
+	/// Handles wall collisions during jumps, so we stop moving horizontally (unlike in Quake3)
+	/// </summary>
+	/// <param name="hit"></param>
 	private void HandleWalls(RayCastHit hit)
 	{
 		if(_kcc.IsGrounded)  
@@ -274,21 +278,17 @@ public class DemoFps : Script, IKinematicCharacter
 			return;
 		}
 
-		//Early exit in case this is a dynamic rigidbody, since we want to push them
+		//Early exit if a dynamic rigidbody, since we want to actually push them 
 		RigidBody rb = hit.Collider.AttachedRigidBody;
 		if(rb != null && !rb.IsKinematic)
 		{
 			return;
 		}
 
-		//Handle wall collisions during jumps, so we stop moving horizontally (unlike in Quake3)
-		//Check if this is a wall collision (normal is roughly horizontal)  
-		float wallThreshold = 0.1f; // Adjust as needed  
-		if(Math.Abs(Vector3.Dot(hit.Normal, _kcc.GravityEulerNormalized)) < wallThreshold)  
+		if(Math.Abs(Vector3.Dot(hit.Normal, _kcc.GravityEulerNormalized)) < 0.1f)  
 		{
-			//Remove velocity component toward the wall 
 			Vector3 velocityTowardWall = Vector3.Project(_velocity, -hit.Normal);  
-			if(Vector3.Dot(velocityTowardWall, -hit.Normal) > 0)  
+			if(Vector3.Dot(velocityTowardWall, -hit.Normal) > 0.0f)  
 			{
 				_velocity -= velocityTowardWall;  
 			}
