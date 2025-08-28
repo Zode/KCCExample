@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using FlaxEngine;
 using FlaxEngine.GUI;
 using KCC;
@@ -290,7 +290,7 @@ public class DemoFps : Script, IKinematicCharacter
 			Vector3 velocityTowardWall = Vector3.Project(_velocity, -hit.Normal);  
 			if(Vector3.Dot(velocityTowardWall, -hit.Normal) > 0.0f)  
 			{
-				_velocity -= velocityTowardWall;  
+				_velocity -= velocityTowardWall;
 			}
 		}
 	}

@@ -153,9 +153,9 @@
 			"Name": "KinematicCharacterController",
 			"Transform": {
 				"Translation": {
-					"X": -430.0,
-					"Y": 160.0,
-					"Z": -1510.0
+					"X": -4318.95703125,
+					"Y": 183.5878143310547,
+					"Z": 2712.593994140625
 				}
 			},
 			"StaticFlags": 0,
@@ -169,7 +169,7 @@
 			"TypeName": "Game.DemoFps",
 			"ParentID": "08dd3319114115616b3acc313682c6ec",
 			"V": {
-	"teleport": "08dd34f981900983d3201fe2a417783b"
+	"Teleport": "08dd34f981900983d3201fe2a417783b"
 }
 		},
 		{
@@ -14160,6 +14160,924 @@
 				"Y": 25.0,
 				"Z": 300.0
 			}
+		},
+		{
+			"ID": "089f81dd440d73e5477757a5e98853d0",
+			"TypeName": "FlaxEngine.EmptyActor",
+			"ParentID": "08dd30d80479d6544b3c42956d2a1555",
+			"Name": "MeshTests"
+		},
+		{
+			"ID": "089f81de611ed31060cc8683e6dd23f8",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "089f81dd440d73e5477757a5e98853d0",
+			"Name": "suzanne_convex",
+			"Transform": {
+				"Translation": {
+					"X": -4310.0,
+					"Y": 110.0,
+					"Z": 2720.0
+				}
+			},
+			"Layer": 1,
+			"Model": "089f81dd3d820c2944423800c974f846",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "089f81df690deba965c0d6bb18687802",
+			"TypeName": "FlaxEngine.MeshCollider",
+			"ParentID": "089f81de611ed31060cc8683e6dd23f8",
+			"Name": "MeshCollider",
+			"Layer": 1,
+			"CollisionData": "089f81de5b00e25c5c09f3c9b74338fc"
+		},
+		{
+			"ID": "d9c940b549f39fc30049d2baf74c8ba3",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "089f81dd440d73e5477757a5e98853d0",
+			"Name": "suzanne_mesh",
+			"Transform": {
+				"Translation": {
+					"X": -3930.0,
+					"Y": 110.0,
+					"Z": 2720.0
+				}
+			},
+			"Layer": 1,
+			"Model": "089f81dd3d820c2944423800c974f846",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "ce9e324248189db9764a31ace44ee3dc",
+			"TypeName": "FlaxEngine.MeshCollider",
+			"ParentID": "d9c940b549f39fc30049d2baf74c8ba3",
+			"Name": "MeshCollider",
+			"Layer": 1,
+			"CollisionData": "7a22e6514a970fc012b43891c86b09bb"
+		},
+		{
+			"ID": "916749434d54bff94a783e8ee49bdd49",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "089f81dd440d73e5477757a5e98853d0",
+			"Name": "suzanne_convex 0",
+			"Transform": {
+				"Translation": {
+					"X": -4310.0,
+					"Y": 110.0,
+					"Z": 3140.0
+				},
+				"Orientation": {
+					"X": 0.2788856029510498,
+					"Y": 0.0,
+					"Z": 0.0,
+					"W": 0.9603243470191956
+				}
+			},
+			"Layer": 1,
+			"Model": "089f81dd3d820c2944423800c974f846",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "3cd6f5f5494ef246e84c6ab8eb8d0fcf",
+			"TypeName": "FlaxEngine.MeshCollider",
+			"ParentID": "916749434d54bff94a783e8ee49bdd49",
+			"Name": "MeshCollider",
+			"Layer": 1,
+			"CollisionData": "089f81de5b00e25c5c09f3c9b74338fc"
+		},
+		{
+			"ID": "ba429aca4950646ee27f4388a01c1acd",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "089f81dd440d73e5477757a5e98853d0",
+			"Name": "suzanne_mesh 0",
+			"Transform": {
+				"Translation": {
+					"X": -3930.0,
+					"Y": 110.0,
+					"Z": 3140.0
+				},
+				"Orientation": {
+					"X": 0.2788856029510498,
+					"Y": 0.0,
+					"Z": 0.0,
+					"W": 0.9603243470191956
+				}
+			},
+			"Layer": 1,
+			"Model": "089f81dd3d820c2944423800c974f846",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "ef7f06664a6c7315e3ec9fa7d939286a",
+			"TypeName": "FlaxEngine.MeshCollider",
+			"ParentID": "ba429aca4950646ee27f4388a01c1acd",
+			"Name": "MeshCollider",
+			"Layer": 1,
+			"CollisionData": "7a22e6514a970fc012b43891c86b09bb"
+		},
+		{
+			"ID": "0efe704b44335c3877217f8ce4d5deb0",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "089f81dd440d73e5477757a5e98853d0",
+			"Name": "suzanne_convex 1",
+			"Transform": {
+				"Translation": {
+					"X": -4310.0,
+					"Y": 110.0,
+					"Z": 3550.0
+				},
+				"Orientation": {
+					"X": 0.4018472135066986,
+					"Y": 0.0,
+					"Z": 0.0,
+					"W": 0.9157067537307739
+				}
+			},
+			"Layer": 1,
+			"Model": "089f81dd3d820c2944423800c974f846",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "c8a77aa047f668b27c96f7b4ae787068",
+			"TypeName": "FlaxEngine.MeshCollider",
+			"ParentID": "0efe704b44335c3877217f8ce4d5deb0",
+			"Name": "MeshCollider",
+			"Layer": 1,
+			"CollisionData": "089f81de5b00e25c5c09f3c9b74338fc"
+		},
+		{
+			"ID": "394d919b4d5e24bb46fe7cb1ec2aee43",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "089f81dd440d73e5477757a5e98853d0",
+			"Name": "suzanne_mesh 1",
+			"Transform": {
+				"Translation": {
+					"X": -3930.0,
+					"Y": 110.0,
+					"Z": 3550.0
+				},
+				"Orientation": {
+					"X": 0.4018472135066986,
+					"Y": 0.0,
+					"Z": 0.0,
+					"W": 0.9157067537307739
+				}
+			},
+			"Layer": 1,
+			"Model": "089f81dd3d820c2944423800c974f846",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "7cd35b5f4e78448b9b9a51894ebb8f19",
+			"TypeName": "FlaxEngine.MeshCollider",
+			"ParentID": "394d919b4d5e24bb46fe7cb1ec2aee43",
+			"Name": "MeshCollider",
+			"Layer": 1,
+			"CollisionData": "7a22e6514a970fc012b43891c86b09bb"
+		},
+		{
+			"ID": "569eec3d4c0010e751b152afc422fc63",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "089f81dd440d73e5477757a5e98853d0",
+			"Name": "suzanne_convex 2",
+			"Transform": {
+				"Translation": {
+					"X": -4310.0,
+					"Y": 110.0,
+					"Z": 3970.0
+				},
+				"Orientation": {
+					"X": 0.5179330706596375,
+					"Y": 0.0,
+					"Z": 0.0,
+					"W": 0.8554211258888245
+				}
+			},
+			"Layer": 1,
+			"Model": "089f81dd3d820c2944423800c974f846",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "079f00e74f573616895563a94be22fde",
+			"TypeName": "FlaxEngine.MeshCollider",
+			"ParentID": "569eec3d4c0010e751b152afc422fc63",
+			"Name": "MeshCollider",
+			"Layer": 1,
+			"CollisionData": "089f81de5b00e25c5c09f3c9b74338fc"
+		},
+		{
+			"ID": "65e6478e48711ca058efd2b5c2c52dbb",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "089f81dd440d73e5477757a5e98853d0",
+			"Name": "suzanne_mesh 2",
+			"Transform": {
+				"Translation": {
+					"X": -3930.0,
+					"Y": 110.0,
+					"Z": 3970.0
+				},
+				"Orientation": {
+					"X": 0.5179330706596375,
+					"Y": 0.0,
+					"Z": 0.0,
+					"W": 0.8554211258888245
+				}
+			},
+			"Layer": 1,
+			"Model": "089f81dd3d820c2944423800c974f846",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "04042fec42a5fbeb05c63e922da0d503",
+			"TypeName": "FlaxEngine.MeshCollider",
+			"ParentID": "65e6478e48711ca058efd2b5c2c52dbb",
+			"Name": "MeshCollider",
+			"Layer": 1,
+			"CollisionData": "7a22e6514a970fc012b43891c86b09bb"
+		},
+		{
+			"ID": "09fa24d540e809eb09d8799725c55dd1",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "089f81dd440d73e5477757a5e98853d0",
+			"Name": "suzanne_convex 3",
+			"Transform": {
+				"Translation": {
+					"X": -4310.0,
+					"Y": 110.0,
+					"Z": 4410.0
+				},
+				"Orientation": {
+					"X": 0.6251569986343384,
+					"Y": 0.0,
+					"Z": 0.0,
+					"W": 0.7804990410804749
+				}
+			},
+			"Layer": 1,
+			"Model": "089f81dd3d820c2944423800c974f846",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "ed35359144429e8db3ed69aa9064768b",
+			"TypeName": "FlaxEngine.MeshCollider",
+			"ParentID": "09fa24d540e809eb09d8799725c55dd1",
+			"Name": "MeshCollider",
+			"Layer": 1,
+			"CollisionData": "089f81de5b00e25c5c09f3c9b74338fc"
+		},
+		{
+			"ID": "c54555f6442a9693050b98be3e653be9",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "089f81dd440d73e5477757a5e98853d0",
+			"Name": "suzanne_mesh 3",
+			"Transform": {
+				"Translation": {
+					"X": -3930.0,
+					"Y": 110.0,
+					"Z": 4410.0
+				},
+				"Orientation": {
+					"X": 0.6251569986343384,
+					"Y": 0.0,
+					"Z": 0.0,
+					"W": 0.7804990410804749
+				}
+			},
+			"Layer": 1,
+			"Model": "089f81dd3d820c2944423800c974f846",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "1c4d07674abac3eb39d730beb4f831f7",
+			"TypeName": "FlaxEngine.MeshCollider",
+			"ParentID": "c54555f6442a9693050b98be3e653be9",
+			"Name": "MeshCollider",
+			"Layer": 1,
+			"CollisionData": "7a22e6514a970fc012b43891c86b09bb"
+		},
+		{
+			"ID": "cbb75b2d4fc6b3c8dfe59288d2a4b54c",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "089f81dd440d73e5477757a5e98853d0",
+			"Name": "suzanne_convex 4",
+			"Transform": {
+				"Translation": {
+					"X": -4310.0,
+					"Y": 110.0,
+					"Z": 4870.0
+				},
+				"Orientation": {
+					"X": 0.7608131766319275,
+					"Y": 0.0,
+					"Z": 0.0,
+					"W": 0.6489709615707397
+				}
+			},
+			"Layer": 1,
+			"Model": "089f81dd3d820c2944423800c974f846",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "9f799f054b6a5bef4e593abf1a511514",
+			"TypeName": "FlaxEngine.MeshCollider",
+			"ParentID": "cbb75b2d4fc6b3c8dfe59288d2a4b54c",
+			"Name": "MeshCollider",
+			"Layer": 1,
+			"CollisionData": "089f81de5b00e25c5c09f3c9b74338fc"
+		},
+		{
+			"ID": "0d0ea0f7433b429c0f324aa997eb4bd5",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "089f81dd440d73e5477757a5e98853d0",
+			"Name": "suzanne_mesh 4",
+			"Transform": {
+				"Translation": {
+					"X": -3930.0,
+					"Y": 110.0,
+					"Z": 4870.0
+				},
+				"Orientation": {
+					"X": 0.7608131766319275,
+					"Y": 0.0,
+					"Z": 0.0,
+					"W": 0.6489709615707397
+				}
+			},
+			"Layer": 1,
+			"Model": "089f81dd3d820c2944423800c974f846",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "99d47d414342ca750a8dc19160fb67de",
+			"TypeName": "FlaxEngine.MeshCollider",
+			"ParentID": "0d0ea0f7433b429c0f324aa997eb4bd5",
+			"Name": "MeshCollider",
+			"Layer": 1,
+			"CollisionData": "7a22e6514a970fc012b43891c86b09bb"
+		},
+		{
+			"ID": "43f471774efe769cfaf5ce926d586999",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "089f81dd440d73e5477757a5e98853d0",
+			"Name": "suzanne_convex 5",
+			"Transform": {
+				"Translation": {
+					"X": -3510.0,
+					"Y": -20.0,
+					"Z": 2720.0
+				}
+			},
+			"Layer": 1,
+			"Model": "089f81dd3d820c2944423800c974f846",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "f5aa4e7046e3e8e42551d7bdd45cbda5",
+			"TypeName": "FlaxEngine.MeshCollider",
+			"ParentID": "43f471774efe769cfaf5ce926d586999",
+			"Name": "MeshCollider",
+			"Layer": 1,
+			"CollisionData": "089f81de5b00e25c5c09f3c9b74338fc"
+		},
+		{
+			"ID": "4cbe76ef4252605b3c715285032c57e6",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "089f81dd440d73e5477757a5e98853d0",
+			"Name": "suzanne_mesh 5",
+			"Transform": {
+				"Translation": {
+					"X": -3130.0,
+					"Y": -20.0,
+					"Z": 2720.0
+				}
+			},
+			"Layer": 1,
+			"Model": "089f81dd3d820c2944423800c974f846",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "0087a4e54421530fea381088fe521dba",
+			"TypeName": "FlaxEngine.MeshCollider",
+			"ParentID": "4cbe76ef4252605b3c715285032c57e6",
+			"Name": "MeshCollider",
+			"Layer": 1,
+			"CollisionData": "7a22e6514a970fc012b43891c86b09bb"
+		},
+		{
+			"ID": "227a70dd4140ede8311c2c84baa7904d",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "089f81dd440d73e5477757a5e98853d0",
+			"Name": "suzanne_convex 6",
+			"Transform": {
+				"Translation": {
+					"X": -3510.0,
+					"Y": -20.0,
+					"Z": 3140.0
+				},
+				"Orientation": {
+					"X": 0.2788856029510498,
+					"Y": 0.0,
+					"Z": 0.0,
+					"W": 0.9603243470191956
+				}
+			},
+			"Layer": 1,
+			"Model": "089f81dd3d820c2944423800c974f846",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "00ff47c04d6aedcf0fcf108c61e73bf6",
+			"TypeName": "FlaxEngine.MeshCollider",
+			"ParentID": "227a70dd4140ede8311c2c84baa7904d",
+			"Name": "MeshCollider",
+			"Layer": 1,
+			"CollisionData": "089f81de5b00e25c5c09f3c9b74338fc"
+		},
+		{
+			"ID": "c13fd11e4e3be70432716babdccc0c0d",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "089f81dd440d73e5477757a5e98853d0",
+			"Name": "suzanne_mesh 6",
+			"Transform": {
+				"Translation": {
+					"X": -3130.0,
+					"Y": -20.0,
+					"Z": 3140.0
+				},
+				"Orientation": {
+					"X": 0.2788856029510498,
+					"Y": 0.0,
+					"Z": 0.0,
+					"W": 0.9603243470191956
+				}
+			},
+			"Layer": 1,
+			"Model": "089f81dd3d820c2944423800c974f846",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "b3c3db5a47bdce2ca01e15bec915027b",
+			"TypeName": "FlaxEngine.MeshCollider",
+			"ParentID": "c13fd11e4e3be70432716babdccc0c0d",
+			"Name": "MeshCollider",
+			"Layer": 1,
+			"CollisionData": "7a22e6514a970fc012b43891c86b09bb"
+		},
+		{
+			"ID": "cf964726480c2132002f0ba5a8c15bde",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "089f81dd440d73e5477757a5e98853d0",
+			"Name": "suzanne_convex 7",
+			"Transform": {
+				"Translation": {
+					"X": -3510.0,
+					"Y": -20.0,
+					"Z": 3550.0
+				},
+				"Orientation": {
+					"X": 0.4018472135066986,
+					"Y": 0.0,
+					"Z": 0.0,
+					"W": 0.9157067537307739
+				}
+			},
+			"Layer": 1,
+			"Model": "089f81dd3d820c2944423800c974f846",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "f75cae454554896b87a24ba3ccbce10c",
+			"TypeName": "FlaxEngine.MeshCollider",
+			"ParentID": "cf964726480c2132002f0ba5a8c15bde",
+			"Name": "MeshCollider",
+			"Layer": 1,
+			"CollisionData": "089f81de5b00e25c5c09f3c9b74338fc"
+		},
+		{
+			"ID": "b7e975d0405c757d68b61697cb268c8b",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "089f81dd440d73e5477757a5e98853d0",
+			"Name": "suzanne_mesh 7",
+			"Transform": {
+				"Translation": {
+					"X": -3130.0,
+					"Y": -20.0,
+					"Z": 3550.0
+				},
+				"Orientation": {
+					"X": 0.4018472135066986,
+					"Y": 0.0,
+					"Z": 0.0,
+					"W": 0.9157067537307739
+				}
+			},
+			"Layer": 1,
+			"Model": "089f81dd3d820c2944423800c974f846",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "bdf9fcc9476c53b0eddd2eb8f6f20973",
+			"TypeName": "FlaxEngine.MeshCollider",
+			"ParentID": "b7e975d0405c757d68b61697cb268c8b",
+			"Name": "MeshCollider",
+			"Layer": 1,
+			"CollisionData": "7a22e6514a970fc012b43891c86b09bb"
+		},
+		{
+			"ID": "212e0684461556cd693ceaa6c5246dab",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "089f81dd440d73e5477757a5e98853d0",
+			"Name": "suzanne_convex 8",
+			"Transform": {
+				"Translation": {
+					"X": -3510.0,
+					"Y": -20.0,
+					"Z": 3970.0
+				},
+				"Orientation": {
+					"X": 0.5179330706596375,
+					"Y": 0.0,
+					"Z": 0.0,
+					"W": 0.8554211258888245
+				}
+			},
+			"Layer": 1,
+			"Model": "089f81dd3d820c2944423800c974f846",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "4ec993ec44d52d287082e190f39a265b",
+			"TypeName": "FlaxEngine.MeshCollider",
+			"ParentID": "212e0684461556cd693ceaa6c5246dab",
+			"Name": "MeshCollider",
+			"Layer": 1,
+			"CollisionData": "089f81de5b00e25c5c09f3c9b74338fc"
+		},
+		{
+			"ID": "8b3149d146469afeb1084b9b54a09546",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "089f81dd440d73e5477757a5e98853d0",
+			"Name": "suzanne_mesh 8",
+			"Transform": {
+				"Translation": {
+					"X": -3130.0,
+					"Y": -20.0,
+					"Z": 3970.0
+				},
+				"Orientation": {
+					"X": 0.5179330706596375,
+					"Y": 0.0,
+					"Z": 0.0,
+					"W": 0.8554211258888245
+				}
+			},
+			"Layer": 1,
+			"Model": "089f81dd3d820c2944423800c974f846",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "7570960e4753ec0343e8298ff7e52f5b",
+			"TypeName": "FlaxEngine.MeshCollider",
+			"ParentID": "8b3149d146469afeb1084b9b54a09546",
+			"Name": "MeshCollider",
+			"Layer": 1,
+			"CollisionData": "7a22e6514a970fc012b43891c86b09bb"
+		},
+		{
+			"ID": "f2da14904c7f3b5f260d059342a0d13c",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "089f81dd440d73e5477757a5e98853d0",
+			"Name": "suzanne_convex 9",
+			"Transform": {
+				"Translation": {
+					"X": -3510.0,
+					"Y": -20.0,
+					"Z": 4410.0
+				},
+				"Orientation": {
+					"X": 0.6251569986343384,
+					"Y": 0.0,
+					"Z": 0.0,
+					"W": 0.7804990410804749
+				}
+			},
+			"Layer": 1,
+			"Model": "089f81dd3d820c2944423800c974f846",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "dd28305442519816a40128b72f804487",
+			"TypeName": "FlaxEngine.MeshCollider",
+			"ParentID": "f2da14904c7f3b5f260d059342a0d13c",
+			"Name": "MeshCollider",
+			"Layer": 1,
+			"CollisionData": "089f81de5b00e25c5c09f3c9b74338fc"
+		},
+		{
+			"ID": "eb9b8c60486ce350aeed2eb9c067dc38",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "089f81dd440d73e5477757a5e98853d0",
+			"Name": "suzanne_mesh 9",
+			"Transform": {
+				"Translation": {
+					"X": -3130.0,
+					"Y": -20.0,
+					"Z": 4410.0
+				},
+				"Orientation": {
+					"X": 0.6251569986343384,
+					"Y": 0.0,
+					"Z": 0.0,
+					"W": 0.7804990410804749
+				}
+			},
+			"Layer": 1,
+			"Model": "089f81dd3d820c2944423800c974f846",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "ceefc3bb44cee4cb0642d185e652f664",
+			"TypeName": "FlaxEngine.MeshCollider",
+			"ParentID": "eb9b8c60486ce350aeed2eb9c067dc38",
+			"Name": "MeshCollider",
+			"Layer": 1,
+			"CollisionData": "7a22e6514a970fc012b43891c86b09bb"
+		},
+		{
+			"ID": "e097f7744e8bc8d80e0c5baa44ae7e09",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "089f81dd440d73e5477757a5e98853d0",
+			"Name": "suzanne_convex 10",
+			"Transform": {
+				"Translation": {
+					"X": -3510.0,
+					"Y": -20.0,
+					"Z": 4870.0
+				},
+				"Orientation": {
+					"X": 0.7608131766319275,
+					"Y": 0.0,
+					"Z": 0.0,
+					"W": 0.6489709615707397
+				}
+			},
+			"Layer": 1,
+			"Model": "089f81dd3d820c2944423800c974f846",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "554ed49b472064836af23683899aba56",
+			"TypeName": "FlaxEngine.MeshCollider",
+			"ParentID": "e097f7744e8bc8d80e0c5baa44ae7e09",
+			"Name": "MeshCollider",
+			"Layer": 1,
+			"CollisionData": "089f81de5b00e25c5c09f3c9b74338fc"
+		},
+		{
+			"ID": "e39e9cda4f1af5e76cfffcbc286b75c8",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "089f81dd440d73e5477757a5e98853d0",
+			"Name": "suzanne_mesh 10",
+			"Transform": {
+				"Translation": {
+					"X": -3130.0,
+					"Y": -20.0,
+					"Z": 4870.0
+				},
+				"Orientation": {
+					"X": 0.7608131766319275,
+					"Y": 0.0,
+					"Z": 0.0,
+					"W": 0.6489709615707397
+				}
+			},
+			"Layer": 1,
+			"Model": "089f81dd3d820c2944423800c974f846",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "6c1dc80f4c10d98921499e967f255c96",
+			"TypeName": "FlaxEngine.MeshCollider",
+			"ParentID": "e39e9cda4f1af5e76cfffcbc286b75c8",
+			"Name": "MeshCollider",
+			"Layer": 1,
+			"CollisionData": "7a22e6514a970fc012b43891c86b09bb"
 		}
 	]
 }
