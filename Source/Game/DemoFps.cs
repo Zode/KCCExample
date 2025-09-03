@@ -168,10 +168,7 @@ public class DemoFps : Script, IKinematicCharacter
 		else
 		{
 			//groundmove
-			if(_velocity.Y < 0)
-			{
-				_velocity.Y = 0.0f;
-			}
+			_velocity.Y = 0.0f;
 
 			Q3Friction(DECELERATION_SPEED, FRICTION, _forceMultiplier);
 			Q3Accelerate(input, WALK_SPEED * speedMultiplier, WALK_ACCELERATION * _forceMultiplier);
@@ -229,6 +226,7 @@ public class DemoFps : Script, IKinematicCharacter
 
     public void KinematicAttachedRigidBodyEvent(bool attached, RigidBody rigidBody)
 	{
+		Debug.Log($"KinematicAttachedRigidBodyEvent: {attached}");
 		if(attached)
 		{
 			//cancel out any momentum when attaching to a rigidbody
