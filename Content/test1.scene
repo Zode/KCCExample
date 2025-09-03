@@ -153,9 +153,9 @@
 			"Name": "KinematicCharacterController",
 			"Transform": {
 				"Translation": {
-					"X": -3928.95703125,
-					"Y": 173.5878143310547,
-					"Z": 2712.593994140625
+					"X": -340.0,
+					"Y": 170.0,
+					"Z": -1040.0
 				}
 			},
 			"StaticFlags": 0,
@@ -730,6 +730,12 @@
 	"RotationSpeed": 0.0,
 	"RotationOscillationSpeed": 0.0
 }
+		},
+		{
+			"ID": "8938b93b4234f707186d49ad77bc2680",
+			"TypeName": "Game.MoverDebugger",
+			"ParentID": "3793a8a34c93e0b09d32f6b0c4d3439a",
+			"V": {}
 		},
 		{
 			"ID": "647b96604a45a34e57e82e9bb56c54ea",

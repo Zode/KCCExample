@@ -18,6 +18,7 @@ public class DemoPlatform : Script, IKinematicMover
     public float RotationSpeed = 33.0f;
     public float RotationOscillationSpeed = 2.0f;
     public float RotationOscillationDistance = 25.0f;
+    private MoverDebugger debugger;
 
     /// <inheritdoc/>
     public override void OnEnable()
@@ -26,6 +27,8 @@ public class DemoPlatform : Script, IKinematicMover
         mover.Controller = this;
         _originalPosition = Actor.Position;
         _originalOrientation = Actor.Orientation;
+
+        debugger = Actor.GetScript<MoverDebugger>();
     }
     
     public void KinematicUpdate(out Vector3 goalPosition, out Quaternion goalRotation)
@@ -33,5 +36,10 @@ public class DemoPlatform : Script, IKinematicMover
         goalPosition = _originalPosition + Axis.Normalized * (Mathf.Sin(Time.GameTime * Speed) * Distance);
         Quaternion oscillation = Quaternion.Euler(RotationOscillationAxis * (Mathf.Sin(Time.GameTime * RotationOscillationSpeed) * RotationOscillationDistance)) * _originalOrientation;
         goalRotation = Quaternion.Euler(RotationAxis * RotationSpeed * Time.GameTime) * oscillation;
+
+        if(debugger != null)
+        {
+            debugger.OnKinematicUpdate();
+        }
     }
 }
