@@ -205,7 +205,7 @@ public class DemoFps : Script, IKinematicCharacter
 		return true;
 	}
 
-	public void KinematicGroundingEvent(GroundState groundState, RayCastHit? hit)
+	public void KinematicGroundingEvent(GroundState groundState, GroundCheckResult checkResult, RayCastHit hit)
 	{
 		Debug.Log($"KinematicGroundingEvent: {groundState}");
 	}

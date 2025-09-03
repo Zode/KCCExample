@@ -124,7 +124,7 @@ public class DemoAI : Script, IKinematicCharacter
 		return true;
 	}
 
-	public void KinematicGroundingEvent(GroundState groundState, RayCastHit? hit)
+	public void KinematicGroundingEvent(GroundState groundingState, GroundCheckResult checkResult, RayCastHit hit)
 	{
 	}
 
