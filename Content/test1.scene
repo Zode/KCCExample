@@ -8743,6 +8743,7 @@
 			"ID": "089f82a35fae117d03819b6a428669c8",
 			"TypeName": "FlaxEngine.EmptyActor",
 			"ParentID": "08dd30d80479d6544b3c42956d2a1555",
+			"IsActive": false,
 			"Name": "AIBenchmark",
 			"Transform": {
 				"Translation": {
@@ -8758,8 +8759,8 @@
 			"ParentID": "089f82a35fae117d03819b6a428669c8",
 			"V": {
 	"AIPrefab": "089f82a35d7359bf02cad8953b62c652",
-	"Rows": 5,
-	"Columns": 5,
+	"Rows": 2,
+	"Columns": 2,
 	"DistModifier": 100.0
 }
 		},
@@ -15114,8 +15115,8 @@
 			"Name": "Canvas Scalar",
 			"Transform": {
 				"Translation": {
-					"X": -10.0,
-					"Y": 0.0,
+					"X": 0.0,
+					"Y": -20.0,
 					"Z": 0.0
 				}
 			},
@@ -15189,10 +15190,10 @@
 		"Y": 1.0
 	},
 	"Offsets": {
-		"Left": -10.0,
-		"Right": 10.0,
-		"Top": 0.0,
-		"Bottom": 0.0
+		"Left": 0.0,
+		"Right": 0.0,
+		"Top": -20.0,
+		"Bottom": 20.0
 	},
 	"Scale": {
 		"X": 1.0,
