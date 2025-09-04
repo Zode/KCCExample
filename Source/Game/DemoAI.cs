@@ -16,6 +16,16 @@ public class DemoAI : Script, IKinematicCharacter
 	private float _zRandomizer = 1.0f;
 	private static readonly RandomStream _rnd = new((int)Time.StartupTime.Ticks);
 
+	private const float JUMP_SPEED = 14.0f; // Jump speed in units per second
+	private const float GRAVITY = 30.0f; // Gravity in units per second squared
+	private const float WALK_SPEED = 10.0f; // Walk speed in units per second
+	private const float WALK_ACCELERATION = 12.0f; // Walk acceleration in units per second squared
+	private const float DECELERATION_SPEED = 10.0f; // Deceleration speed in units per second
+	private const float FRICTION = 6.0f; // Friction coefficient
+
+	private float _deltaTime => 1.0f / Time.PhysicsFPS; //HACK: for the time being work around a Flax bug https://github.com/FlaxEngine/FlaxEngine/issues/3585 
+	private float _forceMultiplier => 60.0f / Time.PhysicsFPS;
+
 	/// <inheritdoc/>
     public override void OnEnable()
     {
@@ -49,7 +59,7 @@ public class DemoAI : Script, IKinematicCharacter
 		if(_kcc.IsGrounded)
 		{
 			float control = (float)tempVelocity.Length < decelerationSpeed ? decelerationSpeed : (float)tempVelocity.Length;
-			drop = control * friction * Time.DeltaTime * multiplier;
+			drop = control * friction * _deltaTime * multiplier;
 		}
 
 		float newSpeed = (float)tempVelocity.Length - drop;
@@ -71,12 +81,12 @@ public class DemoAI : Script, IKinematicCharacter
 	{
 		float directionPenalty = (float)Vector3.Dot(_velocity, targetDir);
 		float addSpeed = targetSpeed - directionPenalty;
-		if(addSpeed <= 0.0f)
+		if(addSpeed < 0.0f)
 		{
 			return;
 		}
 
-		float accelerationToAdd = acceleration * Time.DeltaTime * targetSpeed;
+		float accelerationToAdd = acceleration * _deltaTime * targetSpeed;
 		if(accelerationToAdd > addSpeed)
 		{
 			accelerationToAdd = addSpeed;
@@ -84,7 +94,7 @@ public class DemoAI : Script, IKinematicCharacter
 
 		_velocity.X += accelerationToAdd * targetDir.X;
 		_velocity.Z += accelerationToAdd * targetDir.Z;
-	}
+	}	
 
     public void KinematicMoveUpdate(out Vector3 movement)
     {
@@ -96,19 +106,16 @@ public class DemoAI : Script, IKinematicCharacter
 		if(!_kcc.IsGrounded)
 		{
 			//airmove
-			_velocity.Y -= 0.6f;
-			Q3Accelerate(input, 5, 2.0f);
+			_velocity.Y -= GRAVITY * _deltaTime * _forceMultiplier;
+			Q3Accelerate(input, 5, 2.0f * _forceMultiplier);
 		}
 		else
 		{
 			//groundmove
-			if(_velocity.Y < 0)
-			{
-				_velocity.Y = 0.0f;
-			}
+			_velocity.Y = 0.0f;
 
-			Q3Friction(12, 6.0f, 1.0f);
-			Q3Accelerate(input, 6, 12.0f);
+			Q3Friction(DECELERATION_SPEED, FRICTION, _forceMultiplier);
+			Q3Accelerate(input, WALK_SPEED, WALK_ACCELERATION * _forceMultiplier);
 		}
 		
 		movement = _velocity;
@@ -164,16 +171,57 @@ public class DemoAI : Script, IKinematicCharacter
     {
     }
 
-    public void KinematicCollision(ref RayCastHit hit)
-    {
-		//jumping against ceilings its bit awkward without reseting the Y velocity upon ceiling contact
-		if(Vector3.Dot(hit.Normal, _kcc.GravityEulerNormalized) > 0.0f &&
-			_velocity.Y > 0)
+    /// <summary>
+	/// Bounce off the ceiling, avoiding bad feeling movement. A surface is considered a ceiling if its normal points in the general direction of the gravity,
+	/// the contact point is above the character, and the character is moving upwards.
+	/// </summary>
+	/// <param name="hit"></param>
+	private void HandleCeiling(RayCastHit hit)
+	{
+		float normalDotGravity = (float)Vector3.Dot(hit.Normal, _kcc.GravityEulerNormalized);
+		float hitAbove = (float)Vector3.Dot(hit.Point - _kcc.Position, -_kcc.GravityEulerNormalized);
+		float velocityAgainstGravity = (float)Vector3.Dot(_velocity, -_kcc.GravityEulerNormalized);
+
+		if (normalDotGravity > 0.7f && hitAbove > 0.0f && velocityAgainstGravity > 0.0f)
 		{
 			_velocity.Y = 0.0f;
 		}
-    }
+	}
 
+
+	/// <summary>
+	/// Handles wall collisions during jumps, so we stop moving horizontally (unlike in Quake3)
+	/// </summary>
+	/// <param name="hit"></param>
+	private void HandleWalls(RayCastHit hit)
+	{
+		if(_kcc.IsGrounded)  
+		{  
+			return;
+		}
+
+		//Early exit if a dynamic rigidbody, since we want to actually push them 
+		RigidBody rb = hit.Collider.AttachedRigidBody;
+		if(rb != null && !rb.IsKinematic)
+		{
+			return;
+		}
+
+		if(Math.Abs(Vector3.Dot(hit.Normal, _kcc.GravityEulerNormalized)) < 0.1f)  
+		{
+			Vector3 velocityTowardWall = Vector3.Project(_velocity, -hit.Normal);  
+			if(Vector3.Dot(velocityTowardWall, -hit.Normal) > 0.0f)  
+			{
+				_velocity -= velocityTowardWall;
+			}
+		}
+	}
+
+    public void KinematicCollision(ref RayCastHit hit)
+    {
+		HandleCeiling(hit);
+		HandleWalls(hit);
+    }
     public void KinematicUnstuckEvent(Collider collider, Vector3 penetrationDirection, float penetrationDistance)
     {
     }

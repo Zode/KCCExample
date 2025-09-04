@@ -6,22 +6,21 @@
 	{
 		"ID": "089f82a35d700c8b02cad8873b62c5be",
 		"TypeName": "KCC.KinematicCharacterController",
-		"ParentID": "00000000000000000000000000000000",
 		"V": {
-			"ColliderType": 0,
-			"FilterCollisions": true,
-			"SlideAccountForPhysicsMaterial": false,
-			"CollisionMask": {
-				"Mask": 2
-			},
-			"GroundingDistance": 2.0,
-			"SimulatedMass": 5000.0
-		},
+	"ColliderType": 0,
+	"FilterCollisions": true,
+	"SlideAccountForPhysicsMaterial": false,
+	"CollisionMask": {
+		"Mask": 2
+	},
+	"GroundingDistance": 2.0,
+	"SimulatedMass": 5000.0
+},
 		"Name": "AIController",
 		"StaticFlags": 0,
 		"Layer": 1,
 		"Tag": "player",
-		"MaxAngularVelocity": 3.402823466385289e38,
+		"MaxAngularVelocity": 3.4028234663852886e38,
 		"IsKinematic": true
 	},
 	{

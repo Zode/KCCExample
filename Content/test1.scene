@@ -153,9 +153,15 @@
 			"Name": "KinematicCharacterController",
 			"Transform": {
 				"Translation": {
-					"X": -340.0,
-					"Y": 170.0,
-					"Z": -1040.0
+					"X": -8010.0,
+					"Y": 400.0,
+					"Z": -2360.0
+				},
+				"Orientation": {
+					"X": 0.0,
+					"Y": 1.0,
+					"Z": 0.0,
+					"W": 9.524114830128383e-10
 				}
 			},
 			"StaticFlags": 0,
@@ -8737,7 +8743,6 @@
 			"ID": "089f82a35fae117d03819b6a428669c8",
 			"TypeName": "FlaxEngine.EmptyActor",
 			"ParentID": "08dd30d80479d6544b3c42956d2a1555",
-			"IsActive": false,
 			"Name": "AIBenchmark",
 			"Transform": {
 				"Translation": {
@@ -8753,8 +8758,8 @@
 			"ParentID": "089f82a35fae117d03819b6a428669c8",
 			"V": {
 	"AIPrefab": "089f82a35d7359bf02cad8953b62c652",
-	"Rows": 20,
-	"Columns": 20,
+	"Rows": 5,
+	"Columns": 5,
 	"DistModifier": 100.0
 }
 		},
@@ -15084,6 +15089,235 @@
 			"Name": "MeshCollider",
 			"Layer": 1,
 			"CollisionData": "7a22e6514a970fc012b43891c86b09bb"
+		},
+		{
+			"ID": "089f8015f63a660aa442262287b60ce4",
+			"TypeName": "FlaxEngine.UICanvas",
+			"ParentID": "08dd30d80479d6544b3c42956d2a1555",
+			"Name": "FPS Counter",
+			"Transform": {
+				"Orientation": {
+					"X": 1.0,
+					"Y": 4.371138828673793e-8,
+					"Z": 4.371138828673793e-8,
+					"W": 1.910685465164705e-15
+				}
+			},
+			"V": {
+	"ReceivesEvents": false
+}
+		},
+		{
+			"ID": "089f8015f63b14bfa442362a87b6ad34",
+			"TypeName": "FlaxEngine.UIControl",
+			"ParentID": "089f8015f63a660aa442262287b60ce4",
+			"Name": "Canvas Scalar",
+			"Transform": {
+				"Translation": {
+					"X": -10.0,
+					"Y": 0.0,
+					"Z": 0.0
+				}
+			},
+			"Control": "FlaxEngine.GUI.CanvasScaler",
+			"Data": {
+	"ResolutionCurve": {
+		"Keyframes": [
+			{
+				"Time": 0.0,
+				"Value": 0.0
+			},
+			{
+				"Time": 480.0,
+				"Value": 0.444
+			},
+			{
+				"Time": 720.0,
+				"Value": 0.666
+			},
+			{
+				"Time": 1080.0,
+				"Value": 1.0
+			},
+			{
+				"Time": 8640.0,
+				"Value": 8.0
+			}
+		]
+	},
+	"DpiCurve": {
+		"Keyframes": [
+			{
+				"Time": 1.0,
+				"Value": 1.0
+			},
+			{
+				"Time": 96.0,
+				"Value": 1.0
+			},
+			{
+				"Time": 200.0,
+				"Value": 2.0
+			},
+			{
+				"Time": 400.0,
+				"Value": 4.0
+			}
+		]
+	},
+	"Scaling": 2,
+	"ScaleFactor": 1.0,
+	"PhysicalUnit": 3,
+	"PhysicalUnitSize": 1.0,
+	"ResolutionMode": 0,
+	"ResolutionMin": {
+		"X": 1.0,
+		"Y": 1.0
+	},
+	"ResolutionMax": {
+		"X": 7680.0,
+		"Y": 4320.0
+	},
+	"ClipChildren": true,
+	"CullChildren": true,
+	"AnchorMin": {
+		"X": 0.0,
+		"Y": 0.0
+	},
+	"AnchorMax": {
+		"X": 1.0,
+		"Y": 1.0
+	},
+	"Offsets": {
+		"Left": -10.0,
+		"Right": 10.0,
+		"Top": 0.0,
+		"Bottom": 0.0
+	},
+	"Scale": {
+		"X": 1.0,
+		"Y": 1.0
+	},
+	"Pivot": {
+		"X": 0.5,
+		"Y": 0.5
+	},
+	"Shear": {
+		"X": 0.0,
+		"Y": 0.0
+	},
+	"Rotation": 0.0,
+	"BackgroundColor": {
+		"R": 0.0,
+		"G": 0.0,
+		"B": 0.0,
+		"A": 0.0
+	},
+	"BackgroundBrush": null,
+	"Enabled": true,
+	"Visible": true,
+	"AutoFocus": false
+}
+		},
+		{
+			"ID": "089f801608d191d3b9ed5ad46066e98c",
+			"TypeName": "FlaxEngine.UIControl",
+			"ParentID": "089f8015f63b14bfa442362a87b6ad34",
+			"Name": "Label",
+			"Transform": {
+				"Translation": {
+					"X": 16.0,
+					"Y": 16.0,
+					"Z": 0.0
+				}
+			},
+			"Control": "FlaxEngine.GUI.Label",
+			"Data": {
+	"Text": "FPS: none\n",
+	"CaseOption": 0,
+	"Bold": false,
+	"Italic": false,
+	"TextColor": {
+		"R": 1.0,
+		"G": 1.0,
+		"B": 1.0,
+		"A": 1.0
+	},
+	"TextColorHighlighted": {
+		"R": 1.0,
+		"G": 1.0,
+		"B": 1.0,
+		"A": 1.0
+	},
+	"HorizontalAlignment": 1,
+	"VerticalAlignment": 1,
+	"Wrapping": 0,
+	"BaseLinesGapScale": 1.0,
+	"Font": {
+		"Font": "4508d98f4aa1f0bd59362b81d47e38f4",
+		"Size": 24.0
+	},
+	"Material": null,
+	"Margin": {
+		"Left": 0.0,
+		"Right": 0.0,
+		"Top": 0.0,
+		"Bottom": 0.0
+	},
+	"ClipText": false,
+	"AutoWidth": true,
+	"AutoHeight": true,
+	"AutoFitText": false,
+	"AutoFitTextRange": {
+		"X": 0.1,
+		"Y": 100.0
+	},
+	"ClipChildren": true,
+	"CullChildren": true,
+	"AnchorMin": {
+		"X": 0.0,
+		"Y": 0.0
+	},
+	"AnchorMax": {
+		"X": 0.0,
+		"Y": 0.0
+	},
+	"Offsets": {
+		"Left": 16.0,
+		"Right": 144.0,
+		"Top": 16.0,
+		"Bottom": 76.0
+	},
+	"Scale": {
+		"X": 1.0,
+		"Y": 1.0
+	},
+	"Pivot": {
+		"X": 0.0,
+		"Y": 0.0
+	},
+	"Shear": {
+		"X": 0.0,
+		"Y": 0.0
+	},
+	"Rotation": 0.0,
+	"BackgroundColor": {
+		"R": 0.0,
+		"G": 0.0,
+		"B": 0.0,
+		"A": 0.0
+	},
+	"BackgroundBrush": null,
+	"Enabled": true,
+	"Visible": true,
+	"AutoFocus": false
+}
+		},
+		{
+			"ID": "e8e6c13340c8bc4d34a483a00361af6b",
+			"TypeName": "Game.FPSCounter",
+			"ParentID": "089f801608d191d3b9ed5ad46066e98c",
+			"V": {}
 		}
 	]
 }
