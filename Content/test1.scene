@@ -8759,8 +8759,8 @@
 			"ParentID": "089f82a35fae117d03819b6a428669c8",
 			"V": {
 	"AIPrefab": "089f82a35d7359bf02cad8953b62c652",
-	"Rows": 2,
-	"Columns": 2,
+	"Rows": 3,
+	"Columns": 3,
 	"DistModifier": 100.0
 }
 		},
@@ -15113,13 +15113,6 @@
 			"TypeName": "FlaxEngine.UIControl",
 			"ParentID": "089f8015f63a660aa442262287b60ce4",
 			"Name": "Canvas Scalar",
-			"Transform": {
-				"Translation": {
-					"X": 0.0,
-					"Y": -20.0,
-					"Z": 0.0
-				}
-			},
 			"Control": "FlaxEngine.GUI.CanvasScaler",
 			"Data": {
 	"ResolutionCurve": {
@@ -15192,8 +15185,8 @@
 	"Offsets": {
 		"Left": 0.0,
 		"Right": 0.0,
-		"Top": -20.0,
-		"Bottom": 20.0
+		"Top": 0.0,
+		"Bottom": 0.0
 	},
 	"Scale": {
 		"X": 1.0,
