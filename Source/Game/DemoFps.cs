@@ -85,7 +85,6 @@ public class DemoFps : Script, IKinematicCharacter
 
 		if(Input.GetKeyDown(KeyboardKeys.Q)) {
 			_physicsFpsMode = ++_physicsFpsMode % 4;
-			Debug.Log("Switching PhysicsFPS mode to: " + _physicsFpsMode);
 			Time.PhysicsFPS = _physicsFpsMode switch
 			{
 				0 => 15,
@@ -94,6 +93,8 @@ public class DemoFps : Script, IKinematicCharacter
 				3 => 120,
 				_ => Time.PhysicsFPS
 			};
+
+			Debug.Log($"Switching PhysicsFPS mode to: {_physicsFpsMode} ({Time.PhysicsFPS} physics ticks per second)");
 		}
     }
 

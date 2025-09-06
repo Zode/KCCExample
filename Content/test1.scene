@@ -142,21 +142,21 @@
 			"ParentID": "08dd30d80479d6544b3c42956d2a1555",
 			"V": {
 	"ColliderType": 0,
+	"ColliderRadius": 30.0,
 	"FilterCollisions": true,
 	"SlideAccountForPhysicsMaterial": false,
 	"CollisionMask": {
 		"Mask": 2
 	},
-	"MinimumCreaseAngle": 0.0075,
 	"GroundingDistance": 2.0,
 	"SimulatedMass": 5000.0
 },
 			"Name": "KinematicCharacterController",
 			"Transform": {
 				"Translation": {
-					"X": -8010.0,
-					"Y": 400.0,
-					"Z": -2360.0
+					"X": -3930.0,
+					"Y": 200.0,
+					"Z": 2720.0
 				},
 				"Orientation": {
 					"X": 0.0,
@@ -1176,6 +1176,242 @@
 			"ID": "6c6d136a4da361bad9b9afa0658d2a54",
 			"TypeName": "FlaxEngine.BoxCollider",
 			"ParentID": "b002c5a74c39bcb86c612395e7555b30",
+			"Name": "BoxCollider",
+			"StaticFlags": 0,
+			"Layer": 1,
+			"Size": {
+				"X": 300.0,
+				"Y": 25.0,
+				"Z": 300.0
+			}
+		},
+		{
+			"ID": "b60db7574b5fc8c68fbb88a39ae4f921",
+			"TypeName": "KCC.KinematicMover",
+			"ParentID": "08dd3d051c6c046d6f42b0b5cc6a42e9",
+			"V": {},
+			"Name": "KinematicMover 12",
+			"Transform": {
+				"Translation": {
+					"X": 0.0,
+					"Y": 50.0,
+					"Z": -1050.0
+				}
+			},
+			"StaticFlags": 0,
+			"Layer": 1,
+			"Mass": 2250.0,
+			"MaxAngularVelocity": 3.4028234663852886e38,
+			"IsKinematic": true
+		},
+		{
+			"ID": "e57d506143f70e2787f356844cb14289",
+			"TypeName": "Game.DemoPlatform",
+			"ParentID": "b60db7574b5fc8c68fbb88a39ae4f921",
+			"V": {
+	"Axis": {
+		"X": 1.0,
+		"Y": 0.0,
+		"Z": 0.0
+	},
+	"RotationSpeed": 0.0,
+	"RotationOscillationSpeed": 0.0
+}
+		},
+		{
+			"ID": "6a72342d4242309e3f826682baabd147",
+			"TypeName": "Game.MoverDebugger",
+			"ParentID": "b60db7574b5fc8c68fbb88a39ae4f921",
+			"V": {}
+		},
+		{
+			"ID": "218ea12f4b97b91d9850e89d23accdd8",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "b60db7574b5fc8c68fbb88a39ae4f921",
+			"Name": "Cube",
+			"Transform": {
+				"Scale": {
+					"X": 3.0,
+					"Y": 0.25,
+					"Z": 3.0
+				}
+			},
+			"StaticFlags": 0,
+			"Model": "b43f0f8f4aaba3f3156896a5a22ba493",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "66e65447420574e10f8e869b145af51a",
+			"TypeName": "FlaxEngine.BoxCollider",
+			"ParentID": "b60db7574b5fc8c68fbb88a39ae4f921",
+			"Name": "BoxCollider",
+			"StaticFlags": 0,
+			"Layer": 1,
+			"Size": {
+				"X": 300.0,
+				"Y": 25.0,
+				"Z": 300.0
+			}
+		},
+		{
+			"ID": "e71388df4ea77f9953856d9a2bda38a7",
+			"TypeName": "KCC.KinematicMover",
+			"ParentID": "08dd3d051c6c046d6f42b0b5cc6a42e9",
+			"V": {},
+			"Name": "KinematicMover 13",
+			"Transform": {
+				"Translation": {
+					"X": 0.0,
+					"Y": 100.0,
+					"Z": -1050.0
+				}
+			},
+			"StaticFlags": 0,
+			"Layer": 1,
+			"Mass": 2250.0,
+			"MaxAngularVelocity": 3.4028234663852886e38,
+			"IsKinematic": true
+		},
+		{
+			"ID": "ff9969ce409103e8ec0125857919b5ee",
+			"TypeName": "Game.DemoPlatform",
+			"ParentID": "e71388df4ea77f9953856d9a2bda38a7",
+			"V": {
+	"Axis": {
+		"X": 1.0,
+		"Y": 0.0,
+		"Z": 0.0
+	},
+	"RotationSpeed": 0.0,
+	"RotationOscillationSpeed": 0.0
+}
+		},
+		{
+			"ID": "3aaa3c16416f5aeddfe251b10beb7b86",
+			"TypeName": "Game.MoverDebugger",
+			"ParentID": "e71388df4ea77f9953856d9a2bda38a7",
+			"V": {}
+		},
+		{
+			"ID": "d8d90f1a4ed224e534d90082f8f0a7b4",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "e71388df4ea77f9953856d9a2bda38a7",
+			"Name": "Cube",
+			"Transform": {
+				"Scale": {
+					"X": 3.0,
+					"Y": 0.25,
+					"Z": 3.0
+				}
+			},
+			"StaticFlags": 0,
+			"Model": "b43f0f8f4aaba3f3156896a5a22ba493",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "3192c52b4152e095b4a2b890235d7edf",
+			"TypeName": "FlaxEngine.BoxCollider",
+			"ParentID": "e71388df4ea77f9953856d9a2bda38a7",
+			"Name": "BoxCollider",
+			"StaticFlags": 0,
+			"Layer": 1,
+			"Size": {
+				"X": 300.0,
+				"Y": 25.0,
+				"Z": 300.0
+			}
+		},
+		{
+			"ID": "e39731e84aee6176c166bda5d58eb208",
+			"TypeName": "KCC.KinematicMover",
+			"ParentID": "08dd3d051c6c046d6f42b0b5cc6a42e9",
+			"V": {},
+			"Name": "KinematicMover 14",
+			"Transform": {
+				"Translation": {
+					"X": 0.0,
+					"Y": 90.0,
+					"Z": -1380.0
+				},
+				"Scale": {
+					"X": 1.0,
+					"Y": 6.0,
+					"Z": 1.0
+				}
+			},
+			"StaticFlags": 0,
+			"Layer": 1,
+			"Mass": 13500.001953125,
+			"MaxAngularVelocity": 3.4028234663852886e38,
+			"IsKinematic": true
+		},
+		{
+			"ID": "9076da3b4f7ae12d1747d3b071ab56d3",
+			"TypeName": "Game.DemoPlatform",
+			"ParentID": "e39731e84aee6176c166bda5d58eb208",
+			"V": {
+	"Axis": {
+		"X": 1.0,
+		"Y": 0.0,
+		"Z": 0.0
+	},
+	"RotationSpeed": 0.0,
+	"RotationOscillationSpeed": 0.0
+}
+		},
+		{
+			"ID": "e665b92d410a964d20391fb3739bd0bb",
+			"TypeName": "Game.MoverDebugger",
+			"ParentID": "e39731e84aee6176c166bda5d58eb208",
+			"V": {}
+		},
+		{
+			"ID": "d02ac31b4ed350c22d221b9126270151",
+			"TypeName": "FlaxEngine.StaticModel",
+			"ParentID": "e39731e84aee6176c166bda5d58eb208",
+			"Name": "Cube",
+			"Transform": {
+				"Scale": {
+					"X": 3.0,
+					"Y": 0.25,
+					"Z": 3.0
+				}
+			},
+			"StaticFlags": 0,
+			"Model": "b43f0f8f4aaba3f3156896a5a22ba493",
+			"Buffer": {
+				"Entries": [
+					{
+						"Material": "00000000000000000000000000000000",
+						"ShadowsMode": 3,
+						"Visible": true,
+						"ReceiveDecals": true
+					}
+				]
+			}
+		},
+		{
+			"ID": "29dcd07a4f0946d00354888138d5e92b",
+			"TypeName": "FlaxEngine.BoxCollider",
+			"ParentID": "e39731e84aee6176c166bda5d58eb208",
 			"Name": "BoxCollider",
 			"StaticFlags": 0,
 			"Layer": 1,
