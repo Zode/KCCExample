@@ -147,6 +147,7 @@
 	"CollisionMask": {
 		"Mask": 2
 	},
+	"MinimumCreaseAngle": 0.0075,
 	"GroundingDistance": 2.0,
 	"SimulatedMass": 5000.0
 },
