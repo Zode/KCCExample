@@ -154,9 +154,9 @@
 			"Name": "KinematicCharacterController",
 			"Transform": {
 				"Translation": {
-					"X": -3930.0,
+					"X": -7880.0,
 					"Y": 200.0,
-					"Z": 2720.0
+					"Z": -1810.0
 				},
 				"Orientation": {
 					"X": 0.0,
@@ -8997,7 +8997,7 @@
 			"V": {
 	"AIPrefab": "089f82a35d7359bf02cad8953b62c652",
 	"Rows": 3,
-	"Columns": 3,
+	"Columns": 2,
 	"DistModifier": 100.0
 }
 		},

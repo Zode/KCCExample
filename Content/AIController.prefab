@@ -8,6 +8,7 @@
 		"TypeName": "KCC.KinematicCharacterController",
 		"V": {
 	"ColliderType": 0,
+	"ColliderRadius": 25.0,
 	"FilterCollisions": true,
 	"SlideAccountForPhysicsMaterial": false,
 	"CollisionMask": {
