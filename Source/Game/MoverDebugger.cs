@@ -10,6 +10,7 @@ public class MoverDebugger : Script
 {
 	public void OnKinematicUpdate()
 	{
+		#if KCC_DEBUGGER
 		//need to start as a "root event" since KinematicMovers (or KinematicBases) do not automatically start it.
 		KCCDebugger.BeginEvent(Actor, "Mover");
 
@@ -25,5 +26,6 @@ public class MoverDebugger : Script
 		}
 
 		KCCDebugger.EndEvent();
+		#endif
 	}
 }
