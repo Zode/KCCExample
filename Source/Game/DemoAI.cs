@@ -195,7 +195,7 @@ public class DemoAI : Script, IKinematicCharacter
 	/// <param name="hit"></param>
 	private void HandleWalls(RayCastHit hit)
 	{
-		if(_kcc.IsGrounded)  
+		if(_kcc.HasSolidBelow)  
 		{  
 			return;
 		}
