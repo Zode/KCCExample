@@ -18,7 +18,7 @@ public class DemoAI : Script, IKinematicCharacter
 
 	private const float JUMP_SPEED = 14.0f; // Jump speed in units per second
 	private const float GRAVITY = 30.0f; // Gravity in units per second squared
-	private const float WALK_SPEED = 10.0f; // Walk speed in units per second
+	private const float WALK_SPEED = 50.0f; // Walk speed in units per second
 	private const float WALK_ACCELERATION = 12.0f; // Walk acceleration in units per second squared
 	private const float DECELERATION_SPEED = 10.0f; // Deceleration speed in units per second
 	private const float FRICTION = 6.0f; // Friction coefficient
@@ -131,7 +131,7 @@ public class DemoAI : Script, IKinematicCharacter
 		return true;
 	}
 
-	public void KinematicGroundingEvent(GroundState groundingState, GroundCheckResult checkResult, RayCastHit hit)
+	public void KinematicGroundingEvent(GroundState state, GroundFlag flags, RayCastHit hit)
 	{
 	}
 
