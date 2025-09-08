@@ -222,6 +222,11 @@ public class DemoAI : Script, IKinematicCharacter
 		HandleCeiling(hit);
 		HandleWalls(hit);
     }
+	
+	public void KinematicCollision(Collider collider)
+	{
+	}
+
     public void KinematicUnstuckEvent(Collider collider, Vector3 penetrationDirection, float penetrationDistance)
     {
     }
