@@ -4,7 +4,7 @@
 	"EngineBuild": 6705,
 	"Data": {
 	"AutoSimulation": true,
-	"Interpolate": false,
+	"Interpolate": true,
 	"CharacterInitialCapacity": 100,
 	"MoverInitialCapacity": 100
 }
