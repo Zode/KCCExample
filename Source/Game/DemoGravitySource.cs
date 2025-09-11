@@ -85,9 +85,6 @@ public class DemoGravitySource : Script
 
 	public void OnTriggerExit(PhysicsColliderActor collider)
 	{
-		Debug.Log(collider.Name);
-		Debug.Log(collider.Parent.Name);
-		Debug.Log(collider.Parent.Parent.Name);
 		//same deal as in OnTriggerEnter
 		if(collider.Parent == null || collider.Parent.Parent == null)
 		{
