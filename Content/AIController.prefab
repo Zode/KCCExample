@@ -20,9 +20,7 @@
 		"Name": "AIController",
 		"StaticFlags": 0,
 		"Layer": 1,
-		"Tag": "player",
-		"MaxAngularVelocity": 3.4028234663852886e38,
-		"IsKinematic": true
+		"Tag": "player"
 	},
 	{
 		"ID": "089f82a35d71d4a602cad8873b62c5c6",
