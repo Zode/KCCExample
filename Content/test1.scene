@@ -161,9 +161,7 @@
 			},
 			"StaticFlags": 0,
 			"Layer": 1,
-			"Tag": "player",
-			"MaxAngularVelocity": 3.4028234663852886e38,
-			"IsKinematic": true
+			"Tag": "player"
 		},
 		{
 			"ID": "b30cb87e49ba4098c1bebaaf20b96667",
@@ -215,10 +213,7 @@
 				}
 			},
 			"StaticFlags": 0,
-			"Layer": 1,
-			"Mass": 2250.0,
-			"MaxAngularVelocity": 3.4028234663852886e38,
-			"IsKinematic": true
+			"Layer": 1
 		},
 		{
 			"ID": "0452e03147be12aa4c4de6b4990fba77",
@@ -281,10 +276,7 @@
 				}
 			},
 			"StaticFlags": 0,
-			"Layer": 1,
-			"Mass": 2250.0,
-			"MaxAngularVelocity": 3.4028234663852886e38,
-			"IsKinematic": true
+			"Layer": 1
 		},
 		{
 			"ID": "86c242bc47b941d7d8a7bcbce1b24df9",
@@ -348,10 +340,7 @@
 				}
 			},
 			"StaticFlags": 0,
-			"Layer": 1,
-			"Mass": 2250.0,
-			"MaxAngularVelocity": 3.4028234663852886e38,
-			"IsKinematic": true
+			"Layer": 1
 		},
 		{
 			"ID": "820b530c4518f0a1e9e82e9cde7c0899",
@@ -414,10 +403,7 @@
 				}
 			},
 			"StaticFlags": 0,
-			"Layer": 1,
-			"Mass": 2250.0,
-			"MaxAngularVelocity": 3.4028234663852886e38,
-			"IsKinematic": true
+			"Layer": 1
 		},
 		{
 			"ID": "2279370e4fba1ec79be7ad9cfb850962",
@@ -481,10 +467,7 @@
 				}
 			},
 			"StaticFlags": 0,
-			"Layer": 1,
-			"Mass": 2250.0,
-			"MaxAngularVelocity": 3.4028234663852886e38,
-			"IsKinematic": true
+			"Layer": 1
 		},
 		{
 			"ID": "ab5941fb4fd06b08b4a9eca41239021a",
@@ -554,10 +537,7 @@
 				}
 			},
 			"StaticFlags": 0,
-			"Layer": 1,
-			"Mass": 2250.0,
-			"MaxAngularVelocity": 3.4028234663852886e38,
-			"IsKinematic": true
+			"Layer": 1
 		},
 		{
 			"ID": "4c5a44d1441088dbfaf805bdbc749523",
@@ -627,10 +607,7 @@
 				}
 			},
 			"StaticFlags": 0,
-			"Layer": 1,
-			"Mass": 9000.0,
-			"MaxAngularVelocity": 3.4028234663852886e38,
-			"IsKinematic": true
+			"Layer": 1
 		},
 		{
 			"ID": "ebb3f57849c7da529c3db5ad7409b593",
@@ -713,10 +690,7 @@
 				}
 			},
 			"StaticFlags": 0,
-			"Layer": 1,
-			"Mass": 2250.0,
-			"MaxAngularVelocity": 3.4028234663852886e38,
-			"IsKinematic": true
+			"Layer": 1
 		},
 		{
 			"ID": "5cb2dee7427ed6240f62b9b1301beae2",
@@ -790,10 +764,7 @@
 				}
 			},
 			"StaticFlags": 0,
-			"Layer": 1,
-			"Mass": 2250.0,
-			"MaxAngularVelocity": 3.4028234663852886e38,
-			"IsKinematic": true
+			"Layer": 1
 		},
 		{
 			"ID": "651b71b84d526eca296f74acb1ef070b",
@@ -857,10 +828,7 @@
 				}
 			},
 			"StaticFlags": 0,
-			"Layer": 1,
-			"Mass": 2250.0,
-			"MaxAngularVelocity": 3.4028234663852886e38,
-			"IsKinematic": true
+			"Layer": 1
 		},
 		{
 			"ID": "5bd8a95c4fecdd11619fca943efd55c1",
@@ -919,10 +887,7 @@
 					"Z": -668.4723510742188
 				}
 			},
-			"Layer": 1,
-			"Mass": 2250.0,
-			"MaxAngularVelocity": 3.4028234663852886e38,
-			"IsKinematic": true
+			"Layer": 1
 		},
 		{
 			"ID": "357c30de427fd53c1e31d48a064eaeeb",
@@ -988,10 +953,7 @@
 				}
 			},
 			"StaticFlags": 0,
-			"Layer": 1,
-			"Mass": 27000.00390625,
-			"MaxAngularVelocity": 3.4028234663852886e38,
-			"IsKinematic": true
+			"Layer": 1
 		},
 		{
 			"ID": "d3d97d7046fc99ca70abca889fedde06",
@@ -1055,10 +1017,7 @@
 				}
 			},
 			"StaticFlags": 0,
-			"Layer": 1,
-			"Mass": 27000.00390625,
-			"MaxAngularVelocity": 3.4028234663852886e38,
-			"IsKinematic": true
+			"Layer": 1
 		},
 		{
 			"ID": "2c9028e244fa4041e0d58d9103bb3694",
@@ -1127,10 +1086,7 @@
 				}
 			},
 			"StaticFlags": 0,
-			"Layer": 1,
-			"Mass": 2250.0,
-			"MaxAngularVelocity": 3.4028234663852886e38,
-			"IsKinematic": true
+			"Layer": 1
 		},
 		{
 			"ID": "42d8ae2f450233b5f1e8db8bb6d301ce",
@@ -1193,10 +1149,7 @@
 				}
 			},
 			"StaticFlags": 0,
-			"Layer": 1,
-			"Mass": 2250.0,
-			"MaxAngularVelocity": 3.4028234663852886e38,
-			"IsKinematic": true
+			"Layer": 1
 		},
 		{
 			"ID": "e57d506143f70e2787f356844cb14289",
@@ -1270,10 +1223,7 @@
 				}
 			},
 			"StaticFlags": 0,
-			"Layer": 1,
-			"Mass": 2250.0,
-			"MaxAngularVelocity": 3.4028234663852886e38,
-			"IsKinematic": true
+			"Layer": 1
 		},
 		{
 			"ID": "ff9969ce409103e8ec0125857919b5ee",
@@ -1352,10 +1302,7 @@
 				}
 			},
 			"StaticFlags": 0,
-			"Layer": 1,
-			"Mass": 13500.001953125,
-			"MaxAngularVelocity": 3.4028234663852886e38,
-			"IsKinematic": true
+			"Layer": 1
 		},
 		{
 			"ID": "9076da3b4f7ae12d1747d3b071ab56d3",
@@ -8990,8 +8937,8 @@
 			"ParentID": "089f82a35fae117d03819b6a428669c8",
 			"V": {
 	"AIPrefab": "089f82a35d7359bf02cad8953b62c652",
-	"Rows": 15,
-	"Columns": 15,
+	"Rows": 25,
+	"Columns": 25,
 	"DistModifier": 75.0
 }
 		},

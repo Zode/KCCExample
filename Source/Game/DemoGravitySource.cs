@@ -55,12 +55,20 @@ public class DemoGravitySource : Script
 
     public void OnTriggerEnter(PhysicsColliderActor collider)
 	{
-		if(collider is not Actor actor)
+		/*
+			kinematicActor <-- we want this
+			|->rigidbody
+			|   |->collider <-- this registered the hit
+			|->collider
+		*/
+		
+		if(collider.Parent == null || collider.Parent.Parent == null)
 		{
 			return;
 		}
 
-		DemoFps? demoFps = actor.Parent.GetScript<DemoFps>();
+		Actor actor = collider.Parent.Parent;
+		DemoFps? demoFps = actor.GetScript<DemoFps>();
 
 		if(demoFps is null)
 		{
@@ -77,12 +85,17 @@ public class DemoGravitySource : Script
 
 	public void OnTriggerExit(PhysicsColliderActor collider)
 	{
-		if(collider is not Actor actor)
+		Debug.Log(collider.Name);
+		Debug.Log(collider.Parent.Name);
+		Debug.Log(collider.Parent.Parent.Name);
+		//same deal as in OnTriggerEnter
+		if(collider.Parent == null || collider.Parent.Parent == null)
 		{
 			return;
 		}
 
-		DemoFps? demoFps = actor.Parent.GetScript<DemoFps>();
+		Actor actor = collider.Parent.Parent;
+		DemoFps? demoFps = actor.GetScript<DemoFps>();
 
 		if(demoFps is null)
 		{
