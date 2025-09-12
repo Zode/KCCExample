@@ -8936,8 +8936,8 @@
 			"ParentID": "089f82a35fae117d03819b6a428669c8",
 			"V": {
 	"AIPrefab": "089f82a35d7359bf02cad8953b62c652",
-	"Rows": 11,
-	"Columns": 11,
+	"Rows": 3,
+	"Columns": 3,
 	"DistModifier": 75.0
 }
 		},
