@@ -35,6 +35,7 @@ public class KCC : GamePlugin
     /// This event is fired after the simulation and post-simulation interpolation setup has happened, after all KCC actors.
     /// </summary>
     public event Action? PostSimulationUpdateEvent;
+    private bool _processingTick = false;
 
     /// <inheritdoc />
     public KCC()
@@ -48,7 +49,7 @@ public class KCC : GamePlugin
             HomepageUrl = null,
             RepositoryUrl = "https://github.com/Zode/KCC",
             Description = "Kinematic Character Controller",
-            Version = new Version(1, 2, 0),
+            Version = new Version(2, 0, 0),
             IsAlpha = false,
             IsBeta = false,
         };
@@ -68,9 +69,8 @@ public class KCC : GamePlugin
             return;
         }
 
-        Scripting.LateUpdate += OnLateUpdate;
         Scripting.FixedUpdate += OnFixedUpdate;
-        Scripting.Update += OnUpdate;
+        Scripting.Draw += OnDraw;
 
         _kccSettings = kccSettingsJson.CreateInstance<KCCSettings>();
         _kinematicMovers = new(_kccSettings.MoverInitialCapacity);
@@ -80,31 +80,15 @@ public class KCC : GamePlugin
     /// <inheritdoc />
     public override void Deinitialize()
     {
-        Scripting.Update -= OnUpdate;
+        Scripting.Draw -= OnDraw;
         Scripting.FixedUpdate -= OnFixedUpdate;
-        Scripting.LateUpdate -= OnLateUpdate;
         base.Deinitialize();
     }
 
     /// <inheritdoc />
-    public void OnLateUpdate()
+    public void OnDraw()
     {
-        if(_kccSettings is null ||
-            !_kccSettings.Interpolate ||
-            _kccSettings.InterpolationMode != InterpolationMode.LateUpdate)
-        {
-            return;
-        }
-
-        InterpolationUpdate();
-    }
-
-    /// <inheritdoc />
-    public void OnUpdate()
-    {
-        if(_kccSettings is null ||
-            !_kccSettings.Interpolate ||
-            _kccSettings.InterpolationMode != InterpolationMode.Update)
+        if(_kccSettings is null || !_kccSettings.Interpolate)
         {
             return;
         }
@@ -121,7 +105,7 @@ public class KCC : GamePlugin
         }
 
         //don't bother processing when game is paused
-        //also fixes an issue where CastCollider would be fed a non-normalized direction as result of game being paused
+        //also fixes an issue where CastCollider would be fed a non-normalized direction as a result of game being paused
         if(!Level.TickEnabled || Time.TimeScale == 0.0f || Time.GamePaused)
         {
             return;
@@ -198,7 +182,7 @@ public class KCC : GamePlugin
 
     /// <summary>
     /// Saves necessary info for interpolation before the simulation.
-    /// All KCC Actors are moved to their finalized positions from previous frame, forcing a finish to the interpolation.
+    /// All KCC Actors are moved to their finalized positions from the previous frame, forcing a finish to the interpolation.
     /// </summary>
     public void PreSimulationUpdate()
     {
@@ -206,27 +190,50 @@ public class KCC : GamePlugin
         Profiler.BeginEvent("KCC.PreSimulationUpdate");
         #endif
 
+        #if KCC_DEBUGGER
+        KCCDebugger.BeginFrame();
+        #endif
+
+        _processingTick = true;
         PreSimulationUpdateEvent?.Invoke();
 
-        foreach(KinematicMover mover in _kinematicMovers)
+        #if FLAX_EDITOR
+        Profiler.BeginEvent("KCC.KinematicMovers");
+        #endif
+
+        for(int i = 0; i < _kinematicMovers.Count; i++)
         {
+            KinematicMover mover = _kinematicMovers[i];
             mover.InitialPosition = mover.TransientPosition;
             mover.InitialOrientation = mover.TransientOrientation;
 
             mover.Position = mover.TransientPosition;
             mover.Orientation = mover.TransientOrientation;
-        }
 
-        foreach(KinematicCharacterController character in _kinematicCharacters)
+            mover.SwitchKinematics(true);
+            mover.SyncKinematics();
+        }
+        
+        #if FLAX_EDITOR
+        Profiler.EndEvent();
+        Profiler.BeginEvent("KCC.KinematicCharacters");
+        #endif
+
+        for(int i = 0; i < _kinematicCharacters.Count; i++)
         {
+            KinematicCharacterController character = _kinematicCharacters[i];
             character.InitialPosition = character.TransientPosition;
             character.InitialOrientation = character.TransientOrientation;
 
             character.Position = character.TransientPosition;
             character.Orientation = character.TransientOrientation;
+
+            character.SwitchKinematics(true);
+            character.SyncKinematics();
         }
 
         #if FLAX_EDITOR
+        Profiler.EndEvent();
         Profiler.EndEvent();
         #endif
     }
@@ -242,17 +249,31 @@ public class KCC : GamePlugin
 
         SimulationUpdateEvent?.Invoke();
 
-        foreach(KinematicMover mover in _kinematicMovers)
-        {
-            mover.KinematicUpdate();
-        }
+        #if FLAX_EDITOR
+        Profiler.BeginEvent("KCC.KinematicMovers");
+        #endif
 
-        foreach(KinematicCharacterController character in _kinematicCharacters)
+        for(int i = 0; i < _kinematicMovers.Count; i++)
         {
-            character.KinematicUpdate();
+            KinematicMover mover = _kinematicMovers[i];
+            mover.KinematicUpdate();
+            mover.SyncKinematics();
         }
 
         #if FLAX_EDITOR
+        Profiler.EndEvent();
+        Profiler.BeginEvent("KCC.KinematicCharacters");
+        #endif
+
+        for(int i = 0; i < _kinematicCharacters.Count; i++)
+        {
+            KinematicCharacterController character = _kinematicCharacters[i];
+            character.KinematicUpdate();
+            character.SyncKinematics();
+        }
+
+        #if FLAX_EDITOR
+        Profiler.EndEvent();
         Profiler.EndEvent();
         #endif
     }
@@ -260,7 +281,7 @@ public class KCC : GamePlugin
     /// <summary>
     /// Sets up for interpolation after the simulation.
     /// All KCC Actors are moved back to their initial position, so that the interpolation appears correct.
-    /// If interpolation is disabled all KCC Actors are moved to their final position.
+    /// If interpolation is disabled, all KCC Actors are moved to their final position.
     /// </summary>
     public void PostSimulationUpdate()
     {
@@ -274,65 +295,106 @@ public class KCC : GamePlugin
         if(_kccSettings is null ||
             !_kccSettings.Interpolate)
         {
-            foreach(KinematicMover mover in _kinematicMovers)
+            #if FLAX_EDITOR
+            Profiler.BeginEvent("KCC.KinematicMovers");
+            #endif
+
+            for(int i = 0; i < _kinematicMovers.Count; i++)
             {
+                KinematicMover mover = _kinematicMovers[i];
+                mover.SwitchKinematics(false);
                 mover.Position = mover.TransientPosition;
                 mover.Orientation = mover.TransientOrientation;
             }
 
-            foreach(KinematicCharacterController character in _kinematicCharacters)
+            #if FLAX_EDITOR
+            Profiler.EndEvent();
+            Profiler.BeginEvent("KCC.KinematicCharacters");
+            #endif
+
+            for(int i = 0; i < _kinematicCharacters.Count; i++)
             {
+                KinematicCharacterController character = _kinematicCharacters[i];   
+                character.SwitchKinematics(false);
                 character.Position = character.TransientPosition;
                 character.Orientation = character.TransientOrientation;
             }
 
             PostSimulationUpdateEvent?.Invoke();
+            _processingTick = false;
+
+            #if KCC_DEBUGGER
+            KCCDebugger.EndFrame();
+            #endif
 
             #if FLAX_EDITOR
+            Profiler.EndEvent();
             Profiler.EndEvent();
             #endif
             
             return;
         }
 
-        foreach(KinematicMover mover in _kinematicMovers)
+        #if FLAX_EDITOR
+        Profiler.BeginEvent("KCC.KinematicMovers");
+        #endif
+
+        for(int i = 0; i < _kinematicMovers.Count; i++)
         {
+            KinematicMover mover = _kinematicMovers[i];
+            mover.SwitchKinematics(false);
             mover.Position = mover.InitialPosition;
             mover.Orientation = mover.InitialOrientation;
         }
 
-        foreach(KinematicCharacterController character in _kinematicCharacters)
+        #if FLAX_EDITOR
+        Profiler.EndEvent();
+        Profiler.BeginEvent("KCC.KinematicCharacters");
+        #endif
+
+
+        for(int i = 0; i < _kinematicCharacters.Count; i++)
         {
+            KinematicCharacterController character = _kinematicCharacters[i];
+            character.SwitchKinematics(false);
             character.Position = character.InitialPosition;
             character.Orientation = character.InitialOrientation;
         }
 
         PostSimulationUpdateEvent?.Invoke();
+        _processingTick = false;
+
+        #if KCC_DEBUGGER
+        KCCDebugger.EndFrame();
+        #endif
 
         #if FLAX_EDITOR
+        Profiler.EndEvent();
         Profiler.EndEvent();
         #endif
     }
 
     /// <summary>
-    /// Processes per frame interpolation for all KCC Actors, moving them between ther initial and final positions as determined by last KCC simulation executed.
+    /// Processes per frame interpolation for all KCC Actors, moving them between the initial and final positions as determined by the last KCC simulation executed.
     /// </summary>
     public void InterpolationUpdate()
     {
-        if(_interpolationDeltaTime <= 0.0f)
+        if(_processingTick || _interpolationDeltaTime <= 0.0f)
         {
             return;
         }
 
         float factor = Mathf.Clamp((Time.TimeSinceStartup - _interpolationStartTime) / _interpolationDeltaTime, 0.0f, 1.0f);
-        foreach(KinematicMover mover in _kinematicMovers)
+        for(int i = 0; i < _kinematicMovers.Count; i++)
         {
+            KinematicMover mover = _kinematicMovers[i];
             mover.Position = Vector3.Lerp(mover.InitialPosition, mover.TransientPosition, factor);
             mover.Orientation = Quaternion.Slerp(mover.InitialOrientation, mover.TransientOrientation, factor);
         }
 
-        foreach(KinematicCharacterController character in _kinematicCharacters)
+        for(int i = 0; i < _kinematicCharacters.Count; i++)
         {
+            KinematicCharacterController character = _kinematicCharacters[i];
             character.Position = Vector3.Lerp(character.InitialPosition, character.TransientPosition, factor);
             character.Orientation = Quaternion.Slerp(character.InitialOrientation, character.TransientOrientation, factor);
         }

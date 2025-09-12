@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using FlaxEngine;
 using FlaxEngine.GUI;
 using KCC;
@@ -10,24 +10,28 @@ namespace Game;
 /// </summary>
 public class DemoFps : Script, IKinematicCharacter
 {
-	private Actor _camera;
-	private Quaternion _cameraOrientation;
-	public Actor teleport;
-	private Quaternion _forwardOrientation = Quaternion.FromDirection(Vector3.Forward);
-	private Quaternion _smoothedForwardOrientation = Quaternion.FromDirection(Vector3.Forward);
-	KinematicCharacterController _kcc;
-	private Vector3 _velocity;
-
-
-	private float deltaTime => 1.0f / Time.PhysicsFPS;
-	private float forceMultiplier => 60.0f / Time.PhysicsFPS ;
-
 	private const float JUMP_SPEED = 14.0f; // Jump speed in units per second
 	private const float GRAVITY = 30.0f; // Gravity in units per second squared
 	private const float WALK_SPEED = 10.0f; // Walk speed in units per second
 	private const float WALK_ACCELERATION = 12.0f; // Walk acceleration in units per second squared
 	private const float DECELERATION_SPEED = 10.0f; // Deceleration speed in units per second
 	private const float FRICTION = 6.0f; // Friction coefficient
+
+	private Actor _camera;
+	private Quaternion _cameraOrientation;
+	public Actor Teleport;
+	private Quaternion _forwardOrientation = Quaternion.FromDirection(Vector3.Forward);
+	private Quaternion _smoothedForwardOrientation = Quaternion.FromDirection(Vector3.Forward);
+	KinematicCharacterController _kcc;
+	private Vector3 _velocity;
+	private int _physicsFpsMode = 2;
+	private bool _wishCrouch = false;
+	private bool _currentlyCrouching = false;
+	private float _originalHeight = 0.0f;
+	private Vector3 _originalCameraPosition = Vector3.Zero;
+
+	private float _deltaTime => 1.0f / Time.PhysicsFPS; //HACK: for the time being work around a Flax bug https://github.com/FlaxEngine/FlaxEngine/issues/3585 
+	private float _forceMultiplier => 60.0f / Time.PhysicsFPS;
 
 	/// <summary>
 	/// Gets the current camera orientation.
@@ -43,9 +47,13 @@ public class DemoFps : Script, IKinematicCharacter
     public override void OnEnable()
     {
 		SetForward(Quaternion.FromDirection(Vector3.Forward));
+
     	_kcc = Actor.As<KinematicCharacterController>();
 		_kcc.Controller = this;
+		_originalHeight = _kcc.ColliderHeight;
+
 		_camera = Actor.GetChild<Camera>();
+		_originalCameraPosition = _camera.LocalPosition;
 		Screen.CursorLock = CursorLockMode.Locked;
     }
 
@@ -56,7 +64,7 @@ public class DemoFps : Script, IKinematicCharacter
 		Screen.CursorVisible = true;
     }
 
-	int physicsFpsMode = 2;
+	
     /// <inheritdoc/>
     public override void OnUpdate()
     {
@@ -78,13 +86,12 @@ public class DemoFps : Script, IKinematicCharacter
 
 		if(Input.GetKey(KeyboardKeys.Alpha1))
 		{
-			_kcc.SetPosition(teleport.Position);
+			_kcc.SetPosition(Teleport.Position);
 		}
 
 		if(Input.GetKeyDown(KeyboardKeys.Q)) {
-			physicsFpsMode = ++physicsFpsMode % 4;
-			Debug.Log("Switching PhysicsFPS mode to: " + physicsFpsMode);
-			Time.PhysicsFPS = physicsFpsMode switch
+			_physicsFpsMode = ++_physicsFpsMode % 4;
+			Time.PhysicsFPS = _physicsFpsMode switch
 			{
 				0 => 15,
 				1 => 30,
@@ -92,7 +99,11 @@ public class DemoFps : Script, IKinematicCharacter
 				3 => 120,
 				_ => Time.PhysicsFPS
 			};
+
+			Debug.Log($"Switching PhysicsFPS mode to: {_physicsFpsMode} ({Time.PhysicsFPS} physics ticks per second)");
 		}
+
+		_wishCrouch = Input.GetKey(KeyboardKeys.Control);
     }
 
 	public void SetForward(Quaternion orientation)
@@ -110,7 +121,7 @@ public class DemoFps : Script, IKinematicCharacter
 		if(_kcc.IsGrounded)
 		{
 			float control = (float)tempVelocity.Length < decelerationSpeed ? decelerationSpeed : (float)tempVelocity.Length;
-			drop = control * friction * deltaTime * multiplier;
+			drop = control * friction * _deltaTime * multiplier;
 		}
 
 		float newSpeed = (float)tempVelocity.Length - drop;
@@ -137,7 +148,7 @@ public class DemoFps : Script, IKinematicCharacter
 			return;
 		}
 
-		float accelerationToAdd = acceleration * deltaTime * targetSpeed;
+		float accelerationToAdd = acceleration * _deltaTime * targetSpeed;
 		if(accelerationToAdd > addSpeed)
 		{
 			accelerationToAdd = addSpeed;
@@ -145,9 +156,73 @@ public class DemoFps : Script, IKinematicCharacter
 
 		_velocity.X += accelerationToAdd * targetDir.X;
 		_velocity.Z += accelerationToAdd * targetDir.Z;
-	}	
+	}
 
-    public void KinematicMoveUpdate(out Vector3 velocity, out Quaternion orientation)
+	/// <summary>
+	/// Showcases how you can use KCC's cast method to automatically cast the shape of the controller,
+	/// and how to handle crouching in FPS controllers in general.
+	/// The slight pop during air crouching comes from the imperfect camera height handling.
+	/// </summary>
+	private void HandleCrouching()
+	{
+		if(_wishCrouch)
+		{
+			if(_currentlyCrouching)
+			{
+				return;
+			}
+
+			_kcc.ColliderHeight = _originalHeight / 2.0f;
+			_currentlyCrouching = true;
+			_camera.LocalPosition = _originalCameraPosition / 2.0f;
+
+			if(_kcc.IsGrounded)
+			{
+				_kcc.TransientPosition += Vector3.Down * _originalHeight / 4.0f;
+			}
+			else
+			{
+				_kcc.TransientPosition += Vector3.Up * _originalHeight / 4.0f;
+			}
+		}
+		else
+		{
+			if(!_currentlyCrouching)
+			{
+				return;
+			}
+
+			if(_kcc.IsGrounded)
+			{
+				//ensure we have space to uncrouch (player is about to scale "upwards")
+				//if your game is not using arbitrary gravity, you can just use Vector3.Up instead.
+				if(_kcc.CastCollider(_kcc.TransientPosition, -_kcc.GravityEulerNormalized, out RayCastHit trace, _originalHeight / 2.0f, _kcc.CollisionMask))
+				{
+					return;
+				}
+
+				_kcc.ColliderHeight = _originalHeight;
+				_kcc.TransientPosition += Vector3.Up * _originalHeight / 4.0f;
+				_currentlyCrouching = false;
+				_camera.LocalPosition = _originalCameraPosition;
+			}
+			else
+			{
+				//same as above, except this time the player is about to scale "downwards"
+				if(_kcc.CastCollider(_kcc.TransientPosition, _kcc.GravityEulerNormalized, out RayCastHit trace, _originalHeight / 2.0f, _kcc.CollisionMask))
+				{
+					return;
+				}
+
+				_kcc.ColliderHeight = _originalHeight;
+				_kcc.TransientPosition += Vector3.Down * _originalHeight / 4.0f;
+				_currentlyCrouching = false;
+				_camera.LocalPosition = _originalCameraPosition;
+			}
+		}
+	}
+
+    public void KinematicMoveUpdate(out Vector3 movement)
     {
 		Vector3 input = Vector3.Zero;
 		input.Z += Input.GetAxis("forwards");
@@ -155,24 +230,21 @@ public class DemoFps : Script, IKinematicCharacter
 		input.Normalize();
 		input *= _cameraOrientation;
 
-		float speedMultiplier = forceMultiplier * (Input.GetKey(KeyboardKeys.Shift) ? 1.8f : 1.0f);
+		float speedMultiplier = _forceMultiplier * (Input.GetKey(KeyboardKeys.Shift) ? 1.8f : 1.0f);
 
 		if(!_kcc.IsGrounded)
 		{
 			//airmove
-			_velocity.Y -= GRAVITY * deltaTime * forceMultiplier;
-			Q3Accelerate(input, 5 * speedMultiplier, 2.0f * forceMultiplier);
+			_velocity.Y -= GRAVITY * _deltaTime * _forceMultiplier;
+			Q3Accelerate(input, 5 * speedMultiplier, 2.0f * _forceMultiplier);
 		}
 		else
 		{
 			//groundmove
-			if(_velocity.Y < 0)
-			{
-				_velocity.Y = 0.0f;
-			}
+			_velocity.Y = 0.0f;
 
-			Q3Friction(DECELERATION_SPEED, FRICTION, forceMultiplier);
-			Q3Accelerate(input, WALK_SPEED * speedMultiplier, WALK_ACCELERATION * forceMultiplier);
+			Q3Friction(DECELERATION_SPEED, FRICTION, _forceMultiplier);
+			Q3Accelerate(input, WALK_SPEED * speedMultiplier, WALK_ACCELERATION * _forceMultiplier);
 		}
 
 		//auto-bhop wheeeee!
@@ -181,18 +253,31 @@ public class DemoFps : Script, IKinematicCharacter
 			if(_kcc.IsGrounded)
 			{
 				_kcc.ForceUnground();
-				_velocity.Y = JUMP_SPEED * forceMultiplier;
+				_velocity.Y = JUMP_SPEED * _forceMultiplier;
 			}
 		}
+
+		//remember to add define in both plugin and game .build.cs!
+		//flax does not share defines between modules.
+		#if KCC_DEBUGGER
+		KCCDebugger.BeginEvent("HandleCrouching");
+		#endif
+
+		HandleCrouching();
 		
+		#if KCC_DEBUGGER
+		KCCDebugger.EndEvent();
+		#endif
+
 		//notice how this is clamped to a low value because we want a smooth transition between extremes
 		float angle = Math.Clamp(1.0f - (Quaternion.AngleBetween(_smoothedForwardOrientation, _forwardOrientation) / 180.0f), 0.0f, 0.2f);
 		_smoothedForwardOrientation = Quaternion.Slerp(_smoothedForwardOrientation, _forwardOrientation, angle);
-		orientation = _smoothedForwardOrientation;
-		velocity = _velocity;
+		
+		_kcc.SetOrientation(_smoothedForwardOrientation);
+		movement = _velocity;
     }
 
-	public bool KinematicCollisionValid(Collider other)
+	public bool KinematicCollisionValid(PhysicsColliderActor other)
 	{
 		if(other.HasTag("nocollide"))
 		{
@@ -202,21 +287,21 @@ public class DemoFps : Script, IKinematicCharacter
 		return true;
 	}
 
-	public void KinematicGroundingEvent(GroundState groundState, RayCastHit? hit)
+	public void KinematicGroundingEvent(GroundState state, GroundFlag flags, RayCastHit hit)
 	{
-		Debug.Log($"KinematicGroundingEvent: {groundState}");
+		Debug.Log($"KinematicGroundingEvent: {state} (flags: {flags})");
 	}
 
     public void KinematicAttachedRigidBodyUpdate(RigidBody rigidBody)
     {
 		//rotate camera with any platform we may be standing on
 		Vector3 angularVelocity = rigidBody.AngularVelocity;
-        _camera.LocalOrientation = Quaternion.RotationY((float)angularVelocity.Y * deltaTime) * _camera.LocalOrientation;
+        _camera.LocalOrientation = Quaternion.RotationY((float)angularVelocity.Y * _deltaTime) * _camera.LocalOrientation;
     }
 
-    public Vector3 KinematicGroundProjection(Vector3 velocity, Vector3 gravityEulerNormalized)
+    public Vector3 KinematicGroundProjection(Vector3 movement, Vector3 gravityEulerNormalized)
     {
-        return _kcc.GroundTangent(velocity.Normalized) * velocity.Length;
+        return _kcc.GroundTangent(movement.Normalized) * movement.Length;
     }
 
     public bool KinematicCanAttachToRigidBody(RigidBody rigidBody)
@@ -226,6 +311,7 @@ public class DemoFps : Script, IKinematicCharacter
 
     public void KinematicAttachedRigidBodyEvent(bool attached, RigidBody rigidBody)
 	{
+		Debug.Log($"KinematicAttachedRigidBodyEvent: {attached}");
 		if(attached)
 		{
 			//cancel out any momentum when attaching to a rigidbody
@@ -246,43 +332,56 @@ public class DemoFps : Script, IKinematicCharacter
     {
     }
 
-    public void KinematicCollision(RayCastHit hit)
-    {
-		// Only treat as ceiling if:
-		// 1. The normal faces generally downward (dot with gravity > 0.7)
-		// 2. The collision point is above the character's center (relative to gravity)
-		// 3. The character is moving upward
+	/// <summary>
+	/// Bounce off the ceiling, avoiding bad feeling movement. A surface is considered a ceiling if its normal points in the general direction of the gravity,
+	/// the contact point is above the character, and the character is moving upwards.
+	/// </summary>
+	/// <param name="hit"></param>
+	private void HandleCeiling(RayCastHit hit)
+	{
+		float normalDotGravity = (float)Vector3.Dot(hit.Normal, _kcc.GravityEulerNormalized);
+		float hitAbove = (float)Vector3.Dot(hit.Point - _kcc.Position, -_kcc.GravityEulerNormalized);
+		float velocityAgainstGravity = (float)Vector3.Dot(_velocity, -_kcc.GravityEulerNormalized);
 
-		// 1. Normal faces downward (ceiling)
-		float normalDotGravity = Vector3.Dot(hit.Normal, _kcc.GravityEulerNormalized);
-
-		// 2. Collision point is above character (relative to gravity)
-		Vector3 characterToHitDistance = hit.Point - _kcc.Position;
-		float hitAbove = Vector3.Dot(characterToHitDistance, -_kcc.GravityEulerNormalized);
-
-		// 3. Character is moving upward (against gravity)
-		float velocityAgainstGravity = Vector3.Dot(_velocity, -_kcc.GravityEulerNormalized);
-
-		if (normalDotGravity > 0.7f && hitAbove > 0 && velocityAgainstGravity > 0)
+		if (normalDotGravity > 0.7f && hitAbove > 0.0f && velocityAgainstGravity > 0.0f)
 		{
 			_velocity.Y = 0.0f;
 		}
+	}
 
-		// Handle wall collisions during jumps  
-		if(!_kcc.IsGrounded)  
+
+	/// <summary>
+	/// Handles wall collisions during jumps, so we stop moving horizontally (unlike in Quake3)
+	/// </summary>
+	/// <param name="hit"></param>
+	private void HandleWalls(RayCastHit hit)
+	{
+		if(_kcc.HasSolidBelow)  
 		{  
-			// Check if this is a wall collision (normal is roughly horizontal)  
-			float wallThreshold = 0.1f; // Adjust as needed  
-			if(Math.Abs(Vector3.Dot(hit.Normal, _kcc.GravityEulerNormalized)) < wallThreshold)  
-			{  
-				// Remove velocity component toward the wall  
-				Vector3 velocityTowardWall = Vector3.Project(_velocity, -hit.Normal);  
-				if(Vector3.Dot(velocityTowardWall, -hit.Normal) > 0)  
-				{  
-					_velocity -= velocityTowardWall;  
-				}  
-			}  
-		}  
+			return;
+		}
+
+		//Early exit if a dynamic rigidbody, since we want to actually push them 
+		RigidBody rb = hit.Collider.AttachedRigidBody;
+		if(rb != null && !rb.IsKinematic)
+		{
+			return;
+		}
+
+		if(Math.Abs(Vector3.Dot(hit.Normal, _kcc.GravityEulerNormalized)) < 0.1f)  
+		{
+			Vector3 velocityTowardWall = Vector3.Project(_velocity, -hit.Normal);  
+			if(Vector3.Dot(velocityTowardWall, -hit.Normal) > 0.0f)  
+			{
+				_velocity -= velocityTowardWall;
+			}
+		}
+	}
+
+    public void KinematicCollision(ref RayCastHit hit)
+    {
+		HandleCeiling(hit);
+		HandleWalls(hit);
     }
 
     public void KinematicUnstuckEvent(Collider collider, Vector3 penetrationDirection, float penetrationDistance)

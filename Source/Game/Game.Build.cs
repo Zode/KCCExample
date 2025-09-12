@@ -24,5 +24,7 @@ public class Game : GameModule
         // To add C++ define use: options.PublicDefinitions.Add("COMPILE_WITH_FLAX");
         // To learn more see scripting documentation.
         options.PublicDependencies.Add("KCC");
+        
+        //options.ScriptingAPI.Defines.Add("KCC_DEBUGGER");
     }
 }
