@@ -25,6 +25,10 @@ public class DemoFps : Script, IKinematicCharacter
 	KinematicCharacterController _kcc;
 	private Vector3 _velocity;
 	private int _physicsFpsMode = 2;
+	private bool _wishCrouch = false;
+	private bool _currentlyCrouching = false;
+	private float _originalHeight = 0.0f;
+	private Vector3 _originalCameraPosition = Vector3.Zero;
 
 	private float _deltaTime => 1.0f / Time.PhysicsFPS; //HACK: for the time being work around a Flax bug https://github.com/FlaxEngine/FlaxEngine/issues/3585 
 	private float _forceMultiplier => 60.0f / Time.PhysicsFPS;
@@ -46,8 +50,10 @@ public class DemoFps : Script, IKinematicCharacter
 
     	_kcc = Actor.As<KinematicCharacterController>();
 		_kcc.Controller = this;
+		_originalHeight = _kcc.ColliderHeight;
 
 		_camera = Actor.GetChild<Camera>();
+		_originalCameraPosition = _camera.LocalPosition;
 		Screen.CursorLock = CursorLockMode.Locked;
     }
 
@@ -96,6 +102,8 @@ public class DemoFps : Script, IKinematicCharacter
 
 			Debug.Log($"Switching PhysicsFPS mode to: {_physicsFpsMode} ({Time.PhysicsFPS} physics ticks per second)");
 		}
+
+		_wishCrouch = Input.GetKey(KeyboardKeys.Control);
     }
 
 	public void SetForward(Quaternion orientation)
@@ -148,7 +156,71 @@ public class DemoFps : Script, IKinematicCharacter
 
 		_velocity.X += accelerationToAdd * targetDir.X;
 		_velocity.Z += accelerationToAdd * targetDir.Z;
-	}	
+	}
+
+	/// <summary>
+	/// Showcases how you can use KCC's cast method to automatically cast the shape of the controller,
+	/// and how to handle crouching in FPS controllers in general.
+	/// The slight pop during air crouching comes from the imperfect camera height handling.
+	/// </summary>
+	private void HandleCrouching()
+	{
+		if(_wishCrouch)
+		{
+			if(_currentlyCrouching)
+			{
+				return;
+			}
+
+			_kcc.ColliderHeight = _originalHeight / 2.0f;
+			_currentlyCrouching = true;
+			_camera.LocalPosition = _originalCameraPosition / 2.0f;
+
+			if(_kcc.IsGrounded)
+			{
+				_kcc.TransientPosition += Vector3.Down * _originalHeight / 4.0f;
+			}
+			else
+			{
+				_kcc.TransientPosition += Vector3.Up * _originalHeight / 4.0f;
+			}
+		}
+		else
+		{
+			if(!_currentlyCrouching)
+			{
+				return;
+			}
+
+			if(_kcc.IsGrounded)
+			{
+				//ensure we have space to uncrouch (player is about to scale "upwards")
+				//if your game is not using arbitrary gravity, you can just use Vector3.Up instead.
+				if(_kcc.CastCollider(_kcc.TransientPosition, -_kcc.GravityEulerNormalized, out RayCastHit trace, _originalHeight / 2.0f, _kcc.CollisionMask))
+				{
+					return;
+				}
+
+				_kcc.ColliderHeight = _originalHeight;
+				_kcc.TransientPosition += Vector3.Up * _originalHeight / 4.0f;
+				_currentlyCrouching = false;
+				_camera.LocalPosition = _originalCameraPosition;
+			}
+			else
+			{
+				//same as above, except this time the player is about to scale "downwards"
+				if(_kcc.CastCollider(_kcc.TransientPosition, _kcc.GravityEulerNormalized, out RayCastHit trace, _originalHeight / 2.0f, _kcc.CollisionMask))
+				{
+					return;
+				}
+
+				_kcc.ColliderHeight = _originalHeight;
+				_kcc.TransientPosition += Vector3.Down * _originalHeight / 4.0f;
+				_currentlyCrouching = false;
+				_camera.LocalPosition = _originalCameraPosition;
+			}
+		}
+	}
 
     public void KinematicMoveUpdate(out Vector3 movement)
     {
@@ -184,7 +256,19 @@ public class DemoFps : Script, IKinematicCharacter
 				_velocity.Y = JUMP_SPEED * _forceMultiplier;
 			}
 		}
+
+		//remember to add define in both plugin and game .build.cs!
+		//flax does not share defines between modules.
+		#if KCC_DEBUGGER
+		KCCDebugger.BeginEvent("HandleCrouching");
+		#endif
+
+		HandleCrouching();
 		
+		#if KCC_DEBUGGER
+		KCCDebugger.EndEvent();
+		#endif
+
 		//notice how this is clamped to a low value because we want a smooth transition between extremes
 		float angle = Math.Clamp(1.0f - (Quaternion.AngleBetween(_smoothedForwardOrientation, _forwardOrientation) / 180.0f), 0.0f, 0.2f);
 		_smoothedForwardOrientation = Quaternion.Slerp(_smoothedForwardOrientation, _forwardOrientation, angle);
