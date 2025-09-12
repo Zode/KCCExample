@@ -62,13 +62,12 @@ public class DemoGravitySource : Script
 			|->collider
 		*/
 		
-		if(collider.Parent == null || collider.Parent.Parent == null)
+		if(!collider.TryGetKinematicCharacter(out KinematicCharacterController? kcc))
 		{
 			return;
 		}
 
-		Actor actor = collider.Parent.Parent;
-		DemoFps? demoFps = actor.GetScript<DemoFps>();
+		DemoFps? demoFps = kcc!.GetScript<DemoFps>();
 
 		if(demoFps is null)
 		{
@@ -86,13 +85,12 @@ public class DemoGravitySource : Script
 	public void OnTriggerExit(PhysicsColliderActor collider)
 	{
 		//same deal as in OnTriggerEnter
-		if(collider.Parent == null || collider.Parent.Parent == null)
+		if(!collider.TryGetKinematicCharacter(out KinematicCharacterController? kcc))
 		{
 			return;
 		}
 
-		Actor actor = collider.Parent.Parent;
-		DemoFps? demoFps = actor.GetScript<DemoFps>();
+		DemoFps? demoFps = kcc!.GetScript<DemoFps>();
 
 		if(demoFps is null)
 		{
