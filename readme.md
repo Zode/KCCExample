@@ -7,4 +7,6 @@ The project has been set up with the following controls:
 - WASD move
 - space jump
 - shift run
+- ctrl crouch
 - 1 to teleport to a moving platform
+- Q to toggle between different physics FPS presets
